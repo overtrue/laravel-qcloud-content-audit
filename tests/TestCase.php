@@ -2,7 +2,8 @@
 
 namespace Tests;
 
-use Overtrue\LaravelPackage\PackageServiceProvider;
+use Intervention\Image\ImageServiceProvider;
+use Overtrue\LaravelQcs\QcsServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -13,9 +14,9 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      *
      * @return array
      */
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
-        return [PackageServiceProvider::class];
+        return [QcsServiceProvider::class, ImageServiceProvider::class];
     }
 
     /**
@@ -39,5 +40,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
         $this->loadMigrationsFrom(__DIR__ . '/migrations');
         $this->loadMigrationsFrom(dirname(__DIR__) . '/migrations');
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        \Mockery::close();
     }
 }

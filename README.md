@@ -1,31 +1,144 @@
-Laravel Package
+Laravel Qcloud Content Security
 ---
 
-Laravel package template.
+T-Sec 天御内容安全服务使用了深度学习技术，识别文本/图片中出现的可能令人反感、不安全或不适宜内容，支持用户配置词库/图片黑名单，识别自定义的识别类型。
+
+- :book: [TMS 官方 API 文档](https://cloud.tencent.com/product/tms)
+- :book: [IMS 官方 API 文档](https://cloud.tencent.com/product/ims)
 
 ## Installing
 
 ```shell
-$ composer require overtrue/laravel-package -vvv
+$ composer require overtrue/laravel-qcs -vvv
 ```
 
-### Migrations
+### Config
 
-This step is also optional, if you want to custom the pivot table, you can publish the migration files:
+请在 `config/services.php` 中配置以下内容：
 
 ```php
-$ php artisan vendor:publish --provider="Overtrue\\LaravelPackage\\PackageServiceProvider" --tag=migrations
+    //...
+    // 文字识别服务
+    'tms' => [
+        'secret_id' => env('TMS_SECRET_ID'),
+        'secret_key' => env('TMS_SECRET_KEY'),
+        'endpoint' => env('TMS_ENDPOINT'),
+    ],
+    // 图片审核/识别服务
+    'ims' => [
+        'secret_id' => env('IMS_SECRET_ID'),
+        'secret_key' => env('IMS_SECRET_KEY'),
+        'endpoint' => env('IMS_ENDPOINT'),
+    ],
 ```
 
-## Usage
+## API
+### 获取检查结果
 
-TODO
+#### 文本相关
+
+> 接口请求频率限制：1000次/秒。
+
+文本内容检查：
+
+```php
+array Tms::check(string $input);
+```
+
+#### 图片相关
+
+> 接口请求频率限制：100次/秒。
+> 图片检测接口为图片文件内容，大小不能超过5M
+> 图片将会缩放成 300*300 后检查
+
+图片内容检查：
+
+```php
+array Ims::check(string $pathOrUrl);
+```
+
+### 直接过滤敏感内容
+
+```php
+array Tms::mask(string $input, string $char = '*', string $strategy = 'strict');
+```
+
+
+## 在模型中使用
+
+### 文本校验（CheckTextWithTms）
+
+```php
+// 文本校验
+use CheckTextWithTms;
+
+protected array $tmsCheckable = ['name', 'description'];
+protected string $tmsCheckStrategy = 'strict'; // 可选，默认使用最严格模式
+
+// 图片
+use CheckImageWithIms;
+
+protected array $imsCheckable = ['avatar', 'logo_url'];
+protected string $tmsCheckStrategy = 'strict'; // 可选，默认使用最严格模式
+```
+
+> 默认将合并字段内容一次送检，去除 html，并以5000字符切割分批检查。
+
+### 文本打码（MaskTextWithTms）
+
+检测到敏感内容时不抛出异常，而是替换为 * 号。
+
+```php
+use MaskTextWithTms;
+
+protected $tmsMaskable = ['name', 'description'];
+protected $tmsMaskStrategy = 'review'; // 开启打码的策略情况，可选，默认使用最严格模式
+```
+
+## 使用表单校验规则
+
+```php
+$this->validate($request, [
+	'name' => 'required|tms',
+	'avatar' => 'required|url|ims',
+	'description' => 'required|tms:strict',
+	'logo_url' => 'required|url|ims:logo',
+]);
+```
+
+
+## 配置策略
+```php
+// 文字
+Tms::setStrategy('strict', function($result) {
+	return $result['Suggestion'] === 'Pass';
+});
+
+// 图片
+Ims::setStrategy('logo', function($result) {
+	return $result['Suggestion'] === 'Pass';
+});
+```
+
 
 ### Events
 
 | **Event**                                       | **Description**                             |
 | ----------------------------------------------- | ------------------------------------------- |
-| `Overtrue\LaravelPackage\Events\SampleEvent`    | Sample description.                         |
+| `Overtrue\LaravelQcs\Events\ModelAttributeTextMasked`    | 模型属性值打码后触发. 可获取 `$model` 和 `$attribute` |
+
+## 异常处理
+验证失败将抛出异常：`Overtrue\LaravelQcs\InvalidInputException`，你可以获取该验证结果相关信息：
+
+```php
+array $exception->result;  	// 验证结果的 API 返回值
+array $exception->contents;	// 校验的内容
+```
+
+另外还有两个子类：
+
+- `Overtrue\LaravelQcs\InvalidTextException`
+- `Overtrue\LaravelQcs\InvalidImageException`
 
 ## Contributing
 

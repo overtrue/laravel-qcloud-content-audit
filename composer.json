@@ -1,69 +1,76 @@
 {
-    "name": "overtrue/laravel-package",
-    "description": "Laravel package template",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "overtrue",
-            "email": "anzhengchao@gmail.com"
-        }
-    ],
-    "require": {
-        "laravel/framework": "^8.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Overtrue\\LaravelPackage\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests"
-        }
-    },
-    "require-dev": {
-        "mockery/mockery": "^1.2",
-        "phpunit/phpunit": "^9.0",
-        "orchestra/testbench": "^6.18",
-        "brainmaestro/composer-git-hooks": "^2.8",
-        "friendsofphp/php-cs-fixer": "^3.0"
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "\\Overtrue\\LaravelPackage\\PackageServiceProvider"
-            ]
-        },
-        "hooks": {
-            "pre-commit": [
-                "composer check-style",
-                "composer test"
-            ],
-            "pre-push": [
-                "composer test"
-            ]
-        }
-    },
-    "scripts": {
-        "post-update-cmd": [
-            "cghooks remove",
-            "cghooks add --ignore-lock",
-            "cghooks update"
-        ],
-        "post-merge": "composer install",
-        "post-install-cmd": [
-            "cghooks remove",
-            "cghooks add --ignore-lock",
-            "cghooks update"
-        ],
-        "cghooks": "vendor/bin/cghooks",
-        "check-style": "php-cs-fixer fix --using-cache=no --diff --dry-run --ansi",
-        "fix-style": "php-cs-fixer fix --using-cache=no --ansi",
-        "test": "phpunit --colors"
-    },
-    "scripts-descriptions": {
-        "test": "Run all tests.",
-        "check-style": "Run style checks (only dry run - no fixing!).",
-        "fix-style": "Run style checks and fix violations."
+  "name": "overtrue/laravel-qcs",
+  "description": "腾讯云内容安全（文字图片内容审核）服务",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "overtrue",
+      "email": "anzhengchao@gmail.com"
     }
+  ],
+  "require": {
+    "laravel/framework": "^8.0",
+    "tencentcloud/tencentcloud-sdk-php": "^3.0",
+    "ext-json": "*",
+    "intervention/image": "^2.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Overtrue\\LaravelQcs\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests"
+    }
+  },
+  "require-dev": {
+    "mockery/mockery": "^1.2",
+    "phpunit/phpunit": "^9.0",
+    "orchestra/testbench": "^6.18",
+    "brainmaestro/composer-git-hooks": "^2.8",
+    "friendsofphp/php-cs-fixer": "^3.0"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "QcsServiceProvider"
+      ],
+      "facades": {
+        "Tms": "Overtrue\\LaravelQcs\\Tms",
+        "Ims": "Overtrue\\LaravelQcs\\Ims"
+      }
+    },
+    "hooks": {
+      "pre-commit": [
+        "composer check-style",
+        "composer test"
+      ],
+      "pre-push": [
+        "composer test"
+      ]
+    }
+  },
+  "scripts": {
+    "post-update-cmd": [
+      "cghooks remove",
+      "cghooks add --ignore-lock",
+      "cghooks update"
+    ],
+    "post-merge": "composer install",
+    "post-install-cmd": [
+      "cghooks remove",
+      "cghooks add --ignore-lock",
+      "cghooks update"
+    ],
+    "cghooks": "vendor/bin/cghooks",
+    "check-style": "php-cs-fixer fix --using-cache=no --diff --dry-run --ansi",
+    "fix-style": "php-cs-fixer fix --using-cache=no --ansi",
+    "test": "phpunit --colors"
+  },
+  "scripts-descriptions": {
+    "test": "Run all tests.",
+    "check-style": "Run style checks (only dry run - no fixing!).",
+    "fix-style": "Run style checks and fix violations."
+  }
 }
