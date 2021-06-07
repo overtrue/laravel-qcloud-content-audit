@@ -24,6 +24,7 @@ $ composer require overtrue/laravel-qcs -vvv
         'secret_key' => env('TMS_SECRET_KEY'),
         'endpoint' => env('TMS_ENDPOINT'),
     ],
+    
     // 图片审核/识别服务
     'ims' => [
         'secret_id' => env('IMS_SECRET_ID'),
@@ -42,6 +43,8 @@ $ composer require overtrue/laravel-qcs -vvv
 文本内容检查：
 
 ```php
+use Overtrue\LaravelQcs\Tms;
+
 array Tms::check(string $input);
 ```
 
@@ -54,13 +57,21 @@ array Tms::check(string $input);
 图片内容检查：
 
 ```php
+use Overtrue\LaravelQcs\Ims;
+
 array Ims::check(string $pathOrUrl);
 ```
 
-### 直接过滤敏感内容
+### 直接替换敏感文本内容
 
 ```php
+use Overtrue\LaravelQcs\Tms;
+
 array Tms::mask(string $input, string $char = '*', string $strategy = 'strict');
+
+// 示例：
+echo Tms::mask('这是敏感内容哦'); 
+// "这是**哦"
 ```
 
 
@@ -69,30 +80,38 @@ array Tms::mask(string $input, string $char = '*', string $strategy = 'strict');
 ### 文本校验（CheckTextWithTms）
 
 ```php
-// 文本校验
-use CheckTextWithTms;
+use Illuminate\Database\Eloquent\Model;
+use Overtrue\LaravelQcs\Traits\CheckTextWithTms;
 
-protected array $tmsCheckable = ['name', 'description'];
-protected string $tmsCheckStrategy = 'strict'; // 可选，默认使用最严格模式
-
-// 图片
-use CheckImageWithIms;
-
-protected array $imsCheckable = ['avatar', 'logo_url'];
-protected string $tmsCheckStrategy = 'strict'; // 可选，默认使用最严格模式
+class Post extends Model 
+{
+    // 文本校验
+    use CheckTextWithTms;
+    
+    protected array $tmsCheckable = ['name', 'description'];
+    protected string $tmsCheckStrategy = 'strict'; // 可选，默认使用最严格模式
+    
+    //...
+}
 ```
-
-> 默认将合并字段内容一次送检，去除 html，并以5000字符切割分批检查。
 
 ### 文本打码（MaskTextWithTms）
 
 检测到敏感内容时不抛出异常，而是替换为 * 号。
 
 ```php
-use MaskTextWithTms;
+use Illuminate\Database\Eloquent\Model;
+use Overtrue\LaravelQcs\Traits\MaskTextWithTms;
 
-protected $tmsMaskable = ['name', 'description'];
-protected $tmsMaskStrategy = 'review'; // 开启打码的策略情况，可选，默认使用最严格模式
+class Post extends Model 
+{
+    use MaskTextWithTms;
+    
+    protected $tmsMaskable = ['name', 'description'];
+    protected $tmsMaskStrategy = 'review'; // 开启打码的策略情况，可选，默认使用最严格模式
+    
+    //...
+}
 ```
 
 ## 使用表单校验规则
@@ -105,7 +124,6 @@ $this->validate($request, [
 	'logo_url' => 'required|url|ims:logo',
 ]);
 ```
-
 
 ## 配置策略
 ```php
