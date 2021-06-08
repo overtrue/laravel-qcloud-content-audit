@@ -21,7 +21,7 @@ trait CheckTextWithTms
                 }
 
                 foreach ($model->getTmsContents() as $content) {
-                    app('tms')->validate($content, $model->tmsCheckStrategy ?? Tms::DEFAULT_STRATEGY);
+                    \Overtrue\LaravelQcs\Tms::validate($content, $model->tmsCheckStrategy ?? Tms::DEFAULT_STRATEGY);
                 }
             }
         );

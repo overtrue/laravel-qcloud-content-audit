@@ -21,7 +21,7 @@ class Ims implements Rule
         }
 
         try {
-            return app('ims')->validate($value->getContent(), $this->strategy);
+            return \Overtrue\LaravelQcs\Ims::validate($value->getContent(), $this->strategy);
         } catch (\Exception $e) {
             return false;
         }

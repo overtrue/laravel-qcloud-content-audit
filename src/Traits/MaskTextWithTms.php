@@ -22,7 +22,7 @@ trait MaskTextWithTms
 
                 foreach ($model->tmsMaskable as $attribute) {
                     $contents = $model->$attribute;
-                    $model->$attribute = app('tms')->mask($contents, $model->tmsMaskStrategy ?? Tms::DEFAULT_STRATEGY);
+                    $model->$attribute = \Overtrue\LaravelQcs\Tms::mask($contents, $model->tmsMaskStrategy ?? Tms::DEFAULT_STRATEGY);
 
                     if ($model->$attribute !== $contents) {
                         \event(new ModelAttributeTextMasked($model, $attribute));

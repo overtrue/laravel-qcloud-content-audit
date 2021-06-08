@@ -41,8 +41,10 @@ class Tms
      */
     public function validate(string $contents, string $strategy = self::DEFAULT_STRATEGY): bool
     {
-        if (!$this->satisfiesStrategy($this->check($contents), $strategy)) {
-            throw new InvalidTextException('Invalid text contents.');
+        $response = $this->check($contents);
+
+        if (!$this->satisfiesStrategy($response, $strategy)) {
+            throw new InvalidTextException($contents, $response);
         }
 
         return true;

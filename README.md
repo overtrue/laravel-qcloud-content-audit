@@ -147,7 +147,7 @@ Ims::setStrategy('logo', function($result) {
 
 ## 异常处理
 
-验证失败将抛出异常：`Overtrue\LaravelQcs\InvalidInputException`，你可以获取该验证结果相关信息：
+验证失败将抛出异常：`Overtrue\LaravelQcs\Exception`，你可以获取该验证结果相关信息：
 
 ```php
 array $exception->result;  	// 验证结果的 API 返回值

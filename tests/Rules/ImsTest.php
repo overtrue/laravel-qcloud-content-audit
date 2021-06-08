@@ -3,7 +3,6 @@
 namespace Tests\Rules;
 
 use Illuminate\Http\UploadedFile;
-use Mockery\MockInterface;
 use Overtrue\LaravelQcs\Rules\Ims;
 use Tests\TestCase;
 
@@ -13,17 +12,10 @@ class ImsTest extends TestCase
     {
         $rule = new Ims();
 
-        $this->instance(
-            'ims',
-            \Mockery::mock(
-                'stdClass',
-                function (MockInterface $tms) {
-                    $tms->shouldReceive('validate')
-                        ->andReturn(true);
-                }
-            )
-        );
+        \Overtrue\LaravelQcs\Ims::shouldReceive('validate')->andReturnTrue();
 
-        $this->assertTrue($rule->passes('logo', UploadedFile::fake()->createWithContent('logo.png', \file_get_contents(__DIR__ . '/../images/500x500.png'))));
+        $this->assertTrue(
+            $rule->passes('logo', UploadedFile::fake()->createWithContent('logo.png', \file_get_contents(__DIR__ . '/../images/500x500.png')))
+        );
     }
 }

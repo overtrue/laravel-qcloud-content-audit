@@ -5,7 +5,7 @@ namespace Tests;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithContainer;
 use Intervention\Image\Facades\Image;
 use Mockery\MockInterface;
-use Overtrue\LaravelQcs\Exceptions\InvalidTextException;
+use Overtrue\LaravelQcs\Exceptions\InvalidImageException;
 use Overtrue\LaravelQcs\Ims;
 use TencentCloud\Ims\V20201229\Models\ImageModerationRequest;
 use TencentCloud\Ims\V20201229\Models\ImageModerationResponse;
@@ -86,7 +86,7 @@ class ImsTest extends TestCase
             )
         );
 
-        $this->expectException(InvalidTextException::class);
+        $this->expectException(InvalidImageException::class);
 
         Ims::validate($imageContents);
     }
@@ -100,15 +100,14 @@ class ImsTest extends TestCase
             ]
         );
         $imagePath = __DIR__ . '/images/500x500.png';
-        $imageContents = \file_get_contents($imagePath);
         $this->instance(
             'ims-service',
             \Mockery::mock(
                 'stdClass',
-                function (MockInterface $service) use ($response, $imageContents) {
+                function (MockInterface $service) use ($response) {
                     $service->shouldReceive('ImageModeration')->with(
                         \Mockery::on(
-                            function (ImageModerationRequest $request) use ($imageContents) {
+                            function (ImageModerationRequest $request) {
                                 $img = Image::make($request->getFileContent());
 
                                 $this->assertSame(\Overtrue\LaravelQcs\Moderators\Ims::MAX_SIZE, $img->getWidth());

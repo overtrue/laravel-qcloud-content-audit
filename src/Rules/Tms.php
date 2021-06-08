@@ -16,7 +16,7 @@ class Tms implements Rule
     public function passes($attribute, $value)
     {
         try {
-            return app('tms')->validate($value, $this->strategy);
+            return \Overtrue\LaravelQcs\Tms::validate($value, $this->strategy);
         } catch (\Exception $e) {
             return false;
         }

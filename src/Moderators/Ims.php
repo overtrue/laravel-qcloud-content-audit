@@ -4,7 +4,7 @@ namespace Overtrue\LaravelQcs\Moderators;
 
 use Intervention\Image\Facades\Image;
 use Overtrue\LaravelQcs\Exceptions\Exception;
-use Overtrue\LaravelQcs\Exceptions\InvalidTextException;
+use Overtrue\LaravelQcs\Exceptions\InvalidImageException;
 use Overtrue\LaravelQcs\Traits\HasStrategies;
 use TencentCloud\Ims\V20201229\Models\ImageModerationRequest;
 
@@ -54,8 +54,10 @@ class Ims
      */
     public function validate(string $contents, string $strategy = self::DEFAULT_STRATEGY): bool
     {
-        if (!$this->satisfiesStrategy($this->check($contents), $strategy)) {
-            throw new InvalidTextException('Invalid image contents.');
+        $response = $this->check($contents);
+
+        if (!$this->satisfiesStrategy($response, $strategy)) {
+            throw new InvalidImageException($response);
         }
 
         return true;
