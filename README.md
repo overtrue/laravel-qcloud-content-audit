@@ -67,7 +67,7 @@ array Ims::check(string $pathOrUrl);
 ```php
 use Overtrue\LaravelQcs\Tms;
 
-array Tms::mask(string $input, string $char = '*', string $strategy = 'strict');
+string Tms::mask(string $input, string $char = '*', string $strategy = 'strict');
 
 // 示例：
 echo Tms::mask('这是敏感内容哦'); 
