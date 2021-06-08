@@ -1,5 +1,11 @@
-Laravel Qcloud Content Security
+Laravel Qcloud Content Security 
 ---
+
+[![CI](https://github.com/overtrue/laravel-qcs/actions/workflows/ci.yml/badge.svg)](https://github.com/overtrue/laravel-qcs/actions/workflows/ci.yml)
+[![Latest Stable Version](https://poser.pugx.org/overtrue/laravel-qcs/v/stable.svg)](https://packagist.org/packages/overtrue/laravel-qcs) 
+[![Latest Unstable Version](https://poser.pugx.org/overtrue/laravel-qcs/v/unstable.svg)](https://packagist.org/packages/overtrue/laravel-qcs) 
+[![Total Downloads](https://poser.pugx.org/overtrue/laravel-qcs/downloads)](https://packagist.org/packages/overtrue/laravel-qcs) 
+[![License](https://poser.pugx.org/overtrue/laravel-qcs/license)](https://packagist.org/packages/overtrue/laravel-qcs)
 
 T-Sec 天御内容安全服务使用了深度学习技术，识别文本/图片中出现的可能令人反感、不安全或不适宜内容，支持用户配置词库/图片黑名单，识别自定义的识别类型。
 
