@@ -34,6 +34,7 @@ $ composer require overtrue/laravel-qcs -vvv
 ```
 
 ## API
+
 ### 获取检查结果
 
 调用对应 API 返回数组结果，返回值结构请参考官方 API 文档。
@@ -73,7 +74,6 @@ string Tms::mask(string $input, string $char = '*', string $strategy = 'strict')
 echo Tms::mask('这是敏感内容哦'); 
 // "这是**哦"
 ```
-
 
 ## 在模型中使用
 
@@ -126,6 +126,7 @@ $this->validate($request, [
 ```
 
 ## 配置策略
+
 ```php
 // 文字
 Tms::setStrategy('strict', function($result) {
@@ -138,7 +139,6 @@ Ims::setStrategy('logo', function($result) {
 });
 ```
 
-
 ### Events
 
 | **Event**                                       | **Description**                             |
@@ -147,17 +147,13 @@ Ims::setStrategy('logo', function($result) {
 
 ## 异常处理
 
-验证失败将抛出异常：`Overtrue\LaravelQcs\Exception`，你可以获取该验证结果相关信息：
-
-```php
-array $exception->result;  	// 验证结果的 API 返回值
-array $exception->contents;	// 校验的内容
-```
-
-另外还有两个子类：
+验证失败将抛出以下异常：
 
 - `Overtrue\LaravelQcs\InvalidTextException`
+    - `$contents` - (string) 被检测的文本内容
+    - `$response` - (array) API 原始返回值
 - `Overtrue\LaravelQcs\InvalidImageException`
+    - `$response` - (array) API 原始返回值
 
 ## Contributing
 
@@ -167,7 +163,8 @@ You can contribute in one of three ways:
 2. Answer questions or fix bugs on the [issue tracker](https://github.com/overtrue/laravel-package/issues).
 3. Contribute new features or update the wiki.
 
-_The code contribution process is not very formal. You just need to make sure that you follow the PSR-0, PSR-1, and PSR-2 coding guidelines. Any new code contributions must be accompanied by unit tests where applicable._
+_The code contribution process is not very formal. You just need to make sure that you follow the PSR-0, PSR-1, and PSR-2 coding guidelines. Any
+new code contributions must be accompanied by unit tests where applicable._
 
 ## PHP 扩展包开发
 
