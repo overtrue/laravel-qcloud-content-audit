@@ -70,7 +70,7 @@ class QcsServiceProvider extends ServiceProvider implements DeferrableProvider
     public function boot()
     {
         app('validator')->extend('tms', function ($attribute, $value, $parameters, $validator) {
-            return (new \Overtrue\LaravelQcs\Rules\Tms())->passes($attribute, $value);
+            return (new \Overtrue\LaravelQcs\Rules\Tms($parameters[0] ?? \Overtrue\LaravelQcs\Moderators\Tms::DEFAULT_STRATEGY))->passes($attribute, $value);
         });
 
         app('validator')->extend('ims', function ($attribute, $value, $parameters, $validator) {

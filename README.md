@@ -64,7 +64,18 @@ array Tms::check(string $input);
 ```php
 use Overtrue\LaravelQcs\Ims;
 
-array Ims::check(string $pathOrUrl);
+array Ims::check(string $contents);
+```
+> 💡 `$contents` 可以为：图片内容、图片本地路径或 URL。
+
+### 检查并返回是否通过
+
+```php
+use Overtrue\LaravelQcs\Tms;
+use Overtrue\LaravelQcs\Ims;
+
+bool Tms::validate(string $contents, string $strategy = 'strict')
+bool Ims::validate(string $contents, string $strategy = 'strict')
 ```
 
 ### 直接替换敏感文本内容
@@ -132,6 +143,8 @@ $this->validate($request, [
 ```
 
 ## 配置策略
+
+你可以通过以下方式注册一个或多个自定义校验规则，决定是否通过校验：
 
 ```php
 // 文字
