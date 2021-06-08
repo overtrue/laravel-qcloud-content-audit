@@ -36,11 +36,11 @@ $ composer require overtrue/laravel-qcs -vvv
 ## API
 ### 获取检查结果
 
-#### 文本相关
+调用对应 API 返回数组结果，返回值结构请参考官方 API 文档。
+
+#### 文本
 
 > 接口请求频率限制：1000次/秒。
-
-文本内容检查：
 
 ```php
 use Overtrue\LaravelQcs\Tms;
@@ -48,13 +48,11 @@ use Overtrue\LaravelQcs\Tms;
 array Tms::check(string $input);
 ```
 
-#### 图片相关
+#### 图片
 
-> 接口请求频率限制：100次/秒。
-> 图片检测接口为图片文件内容，大小不能超过5M
-> 图片将会缩放成 300*300 后检查
-
-图片内容检查：
+> - 接口请求频率限制：100次/秒。
+> - 图片检测接口为图片文件内容，大小不能超过5M
+> - 图片将会缩放成 300*300 后检查
 
 ```php
 use Overtrue\LaravelQcs\Ims;
@@ -63,6 +61,8 @@ array Ims::check(string $pathOrUrl);
 ```
 
 ### 直接替换敏感文本内容
+
+直接将检测到的敏感词替换为 `*`：
 
 ```php
 use Overtrue\LaravelQcs\Tms;
@@ -146,6 +146,7 @@ Ims::setStrategy('logo', function($result) {
 | `Overtrue\LaravelQcs\Events\ModelAttributeTextMasked`    | 模型属性值打码后触发. 可获取 `$model` 和 `$attribute` |
 
 ## 异常处理
+
 验证失败将抛出异常：`Overtrue\LaravelQcs\InvalidInputException`，你可以获取该验证结果相关信息：
 
 ```php
