@@ -34,7 +34,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "QcsServiceProvider"
+        "Overtrue\\LaravelQcs\\QcsServiceProvider"
       ],
       "facades": {
         "Tms": "Overtrue\\LaravelQcs\\Tms",
