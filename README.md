@@ -12,7 +12,7 @@ T-Sec 天御内容安全服务使用了深度学习技术，识别文本/图片�
 - :book: [TMS 官方 API 文档](https://cloud.tencent.com/product/tms)
 - :book: [IMS 官方 API 文档](https://cloud.tencent.com/product/ims)
 
-[![Sponsor me](https://raw.githubusercontent.com/overtrue/overtrue/master/sponsor-me-button-s.svg)](https://github.com/sponsors/overtrue)
+[![Sponsor me](https://github.com/overtrue/overtrue/blob/master/sponsor-me-button-s.svg?raw=true)](https://github.com/sponsors/overtrue)
 
 ## Installing
 
@@ -178,7 +178,7 @@ Ims::setStrategy('logo', function($result) {
 
 ## :heart: Sponsor me 
 
-[![Sponsor me](https://raw.githubusercontent.com/overtrue/overtrue/master/sponsor-me.svg)](https://github.com/sponsors/overtrue)
+[![Sponsor me](https://github.com/overtrue/overtrue/blob/master/sponsor-me.svg?raw=true)](https://github.com/sponsors/overtrue)
 
 如果你喜欢我的项目并想支持它，[点击这里 :heart:](https://github.com/sponsors/overtrue)
 
