@@ -9,7 +9,7 @@
     }
   ],
   "require": {
-    "laravel/framework": "^8.0",
+    "laravel/framework": "^9.0",
     "tencentcloud/tencentcloud-sdk-php": "^3.0",
     "ext-json": "*",
     "intervention/image": "^2.5"
@@ -25,10 +25,9 @@
     }
   },
   "require-dev": {
-    "mockery/mockery": "^1.2",
+    "mockery/mockery": "^1.4",
     "phpunit/phpunit": "^9.0",
-    "orchestra/testbench": "^6.18",
-    "brainmaestro/composer-git-hooks": "^2.8",
+    "orchestra/testbench": "^7.0",
     "friendsofphp/php-cs-fixer": "^3.0"
   },
   "extra": {
