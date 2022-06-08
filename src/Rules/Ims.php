@@ -1,6 +1,6 @@
 <?php
 
-namespace Overtrue\LaravelQcs\Rules;
+namespace Overtrue\LaravelQcloudContentAudit\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -9,7 +9,7 @@ class Ims implements Rule
 {
     protected ?string $strategy = null;
 
-    public function __construct(string $strategy = \Overtrue\LaravelQcs\Moderators\Ims::DEFAULT_STRATEGY)
+    public function __construct(string $strategy = \Overtrue\LaravelQcloudContentAudit\Moderators\Ims::DEFAULT_STRATEGY)
     {
         $this->strategy = $strategy;
     }
@@ -21,7 +21,7 @@ class Ims implements Rule
         }
 
         try {
-            return \Overtrue\LaravelQcs\Ims::validate($value->getContent(), $this->strategy);
+            return \Overtrue\LaravelQcloudContentAudit\Ims::validate($value->getContent(), $this->strategy);
         } catch (\Exception $e) {
             return false;
         }

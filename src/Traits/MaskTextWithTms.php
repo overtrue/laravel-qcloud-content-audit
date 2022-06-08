@@ -1,10 +1,10 @@
 <?php
 
-namespace Overtrue\LaravelQcs\Traits;
+namespace Overtrue\LaravelQcloudContentAudit\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-use Overtrue\LaravelQcs\Events\ModelAttributeTextMasked;
-use Overtrue\LaravelQcs\Moderators\Tms;
+use Overtrue\LaravelQcloudContentAudit\Events\ModelAttributeTextMasked;
+use Overtrue\LaravelQcloudContentAudit\Moderators\Tms;
 
 trait MaskTextWithTms
 {
@@ -22,7 +22,7 @@ trait MaskTextWithTms
 
                 foreach ($model->tmsMaskable as $attribute) {
                     $contents = $model->$attribute;
-                    $model->$attribute = \Overtrue\LaravelQcs\Tms::mask($contents, $model->tmsMaskStrategy ?? Tms::DEFAULT_STRATEGY);
+                    $model->$attribute = \Overtrue\LaravelQcloudContentAudit\Tms::mask($contents, $model->tmsMaskStrategy ?? Tms::DEFAULT_STRATEGY);
 
                     if ($model->$attribute !== $contents) {
                         \event(new ModelAttributeTextMasked($model, $attribute));

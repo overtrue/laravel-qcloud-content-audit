@@ -1,6 +1,6 @@
 <?php
 
-namespace Overtrue\LaravelQcs\Exceptions;
+namespace Overtrue\LaravelQcloudContentAudit\Exceptions;
 
 class Exception extends \Exception
 {

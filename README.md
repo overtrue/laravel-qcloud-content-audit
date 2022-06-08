@@ -1,4 +1,5 @@
-Laravel Qcloud Content Security 
+腾讯云内容安全（文字图片内容审核）服务
+
 ---
 
 [![CI](https://github.com/overtrue/laravel-qcs/actions/workflows/ci.yml/badge.svg)](https://github.com/overtrue/laravel-qcs/actions/workflows/ci.yml)
@@ -52,7 +53,7 @@ $ composer require overtrue/laravel-qcs -vvv
 > 接口请求频率限制：1000次/秒。
 
 ```php
-use Overtrue\LaravelQcs\Tms;
+use Overtrue\LaravelQcloudContentAudit\Tms;
 
 array Tms::check(string $input);
 ```
@@ -64,7 +65,7 @@ array Tms::check(string $input);
 > - 图片将会缩放成 300*300 后检查
 
 ```php
-use Overtrue\LaravelQcs\Ims;
+use Overtrue\LaravelQcloudContentAudit\Ims;
 
 array Ims::check(string $contents);
 ```
@@ -73,8 +74,8 @@ array Ims::check(string $contents);
 ### 检查并返回是否通过
 
 ```php
-use Overtrue\LaravelQcs\Tms;
-use Overtrue\LaravelQcs\Ims;
+use Overtrue\LaravelQcloudContentAudit\Tms;
+use Overtrue\LaravelQcloudContentAudit\Ims;
 
 bool Tms::validate(string $contents, string $strategy = 'strict')
 bool Ims::validate(string $contents, string $strategy = 'strict')
@@ -85,7 +86,7 @@ bool Ims::validate(string $contents, string $strategy = 'strict')
 直接将检测到的敏感词替换为 `*`：
 
 ```php
-use Overtrue\LaravelQcs\Tms;
+use Overtrue\LaravelQcloudContentAudit\Tms;
 
 string Tms::mask(string $input, string $char = '*', string $strategy = 'strict');
 
@@ -100,7 +101,7 @@ echo Tms::mask('这是敏感内容哦');
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Overtrue\LaravelQcs\Traits\CheckTextWithTms;
+use Overtrue\LaravelQcloudContentAudit\Traits\CheckTextWithTms;
 
 class Post extends Model 
 {
@@ -120,7 +121,7 @@ class Post extends Model
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Overtrue\LaravelQcs\Traits\MaskTextWithTms;
+use Overtrue\LaravelQcloudContentAudit\Traits\MaskTextWithTms;
 
 class Post extends Model 
 {
@@ -164,16 +165,16 @@ Ims::setStrategy('logo', function($result) {
 
 | **Event**                                       | **Description**                             |
 | ----------------------------------------------- | ------------------------------------------- |
-| `Overtrue\LaravelQcs\Events\ModelAttributeTextMasked`    | 模型属性值打码后触发. 可获取 `$model` 和 `$attribute` |
+| `Overtrue\LaravelQcloudContentAudit\Events\ModelAttributeTextMasked`    | 模型属性值打码后触发. 可获取 `$model` 和 `$attribute` |
 
 ## 异常处理
 
 验证失败将抛出以下异常：
 
-- `Overtrue\LaravelQcs\InvalidTextException`
+- `Overtrue\LaravelQcloudContentAudit\InvalidTextException`
     - `$contents` - (string) 被检测的文本内容
     - `$response` - (array) API 原始返回值
-- `Overtrue\LaravelQcs\InvalidImageException`
+- `Overtrue\LaravelQcloudContentAudit\InvalidImageException`
     - `$response` - (array) API 原始返回值
 
 ## :heart: Sponsor me 

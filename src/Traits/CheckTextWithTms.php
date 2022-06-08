@@ -1,9 +1,9 @@
 <?php
 
-namespace Overtrue\LaravelQcs\Traits;
+namespace Overtrue\LaravelQcloudContentAudit\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-use Overtrue\LaravelQcs\Moderators\Tms;
+use Overtrue\LaravelQcloudContentAudit\Moderators\Tms;
 
 trait CheckTextWithTms
 {
@@ -21,7 +21,7 @@ trait CheckTextWithTms
                 }
 
                 foreach ($model->getTmsContents() as $content) {
-                    \Overtrue\LaravelQcs\Tms::validate($content, $model->tmsCheckStrategy ?? Tms::DEFAULT_STRATEGY);
+                    \Overtrue\LaravelQcloudContentAudit\Tms::validate($content, $model->tmsCheckStrategy ?? Tms::DEFAULT_STRATEGY);
                 }
             }
         );

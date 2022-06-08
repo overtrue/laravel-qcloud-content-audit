@@ -2,8 +2,8 @@
 
 namespace Tests\Traits;
 
-use Overtrue\LaravelQcs\Exceptions\StrategyNotFoundException;
-use Overtrue\LaravelQcs\Traits\HasStrategies;
+use Overtrue\LaravelQcloudContentAudit\Exceptions\StrategyNotFoundException;
+use Overtrue\LaravelQcloudContentAudit\Traits\HasStrategies;
 use PHPUnit\Framework\TestCase;
 
 class HasStrategiesTest extends TestCase

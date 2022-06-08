@@ -5,8 +5,8 @@ namespace Tests;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithContainer;
 use Intervention\Image\Facades\Image;
 use Mockery\MockInterface;
-use Overtrue\LaravelQcs\Exceptions\InvalidImageException;
-use Overtrue\LaravelQcs\Ims;
+use Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidImageException;
+use Overtrue\LaravelQcloudContentAudit\Ims;
 use TencentCloud\Ims\V20201229\Models\ImageModerationRequest;
 use TencentCloud\Ims\V20201229\Models\ImageModerationResponse;
 
@@ -35,8 +35,8 @@ class ImsTest extends TestCase
                             function (ImageModerationRequest $request) {
                                 $img = Image::make($request->getFileContent());
 
-                                $this->assertSame(\Overtrue\LaravelQcs\Moderators\Ims::MAX_SIZE, $img->getWidth());
-                                $this->assertSame(\Overtrue\LaravelQcs\Moderators\Ims::MAX_SIZE, $img->getHeight());
+                                $this->assertSame(\Overtrue\LaravelQcloudContentAudit\Moderators\Ims::MAX_SIZE, $img->getWidth());
+                                $this->assertSame(\Overtrue\LaravelQcloudContentAudit\Moderators\Ims::MAX_SIZE, $img->getHeight());
 
                                 return true;
                             }
@@ -74,8 +74,8 @@ class ImsTest extends TestCase
                             function (ImageModerationRequest $request) use ($imageContents) {
                                 $img = Image::make($request->getFileContent());
 
-                                $this->assertSame(\Overtrue\LaravelQcs\Moderators\Ims::MAX_SIZE, $img->getWidth());
-                                $this->assertSame(\Overtrue\LaravelQcs\Moderators\Ims::MAX_SIZE, $img->getHeight());
+                                $this->assertSame(\Overtrue\LaravelQcloudContentAudit\Moderators\Ims::MAX_SIZE, $img->getWidth());
+                                $this->assertSame(\Overtrue\LaravelQcloudContentAudit\Moderators\Ims::MAX_SIZE, $img->getHeight());
 
                                 return true;
                             }
@@ -110,8 +110,8 @@ class ImsTest extends TestCase
                             function (ImageModerationRequest $request) {
                                 $img = Image::make($request->getFileContent());
 
-                                $this->assertSame(\Overtrue\LaravelQcs\Moderators\Ims::MAX_SIZE, $img->getWidth());
-                                $this->assertSame(\Overtrue\LaravelQcs\Moderators\Ims::MAX_SIZE, $img->getHeight());
+                                $this->assertSame(\Overtrue\LaravelQcloudContentAudit\Moderators\Ims::MAX_SIZE, $img->getWidth());
+                                $this->assertSame(\Overtrue\LaravelQcloudContentAudit\Moderators\Ims::MAX_SIZE, $img->getHeight());
 
                                 return true;
                             }

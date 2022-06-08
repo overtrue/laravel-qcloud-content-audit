@@ -1,15 +1,15 @@
 <?php
 
-namespace Overtrue\LaravelQcs\Traits;
+namespace Overtrue\LaravelQcloudContentAudit\Traits;
 
-use Overtrue\LaravelQcs\Exceptions\StrategyNotFoundException;
+use Overtrue\LaravelQcloudContentAudit\Exceptions\StrategyNotFoundException;
 
 trait HasStrategies
 {
     protected array $strategies = [];
 
     /**
-     * @throws \Overtrue\LaravelQcs\Exceptions\StrategyNotFoundException
+     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\StrategyNotFoundException
      */
     public function satisfiesStrategy(array $result, string $strategy): bool
     {
@@ -24,7 +24,7 @@ trait HasStrategies
     }
 
     /**
-     * @throws \Overtrue\LaravelQcs\Exceptions\StrategyNotFoundException
+     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\StrategyNotFoundException
      */
     public function getStrategy(string $name): callable
     {

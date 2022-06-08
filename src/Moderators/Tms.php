@@ -1,10 +1,10 @@
 <?php
 
-namespace Overtrue\LaravelQcs\Moderators;
+namespace Overtrue\LaravelQcloudContentAudit\Moderators;
 
-use Overtrue\LaravelQcs\Exceptions\Exception;
-use Overtrue\LaravelQcs\Exceptions\InvalidTextException;
-use Overtrue\LaravelQcs\Traits\HasStrategies;
+use Overtrue\LaravelQcloudContentAudit\Exceptions\Exception;
+use Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidTextException;
+use Overtrue\LaravelQcloudContentAudit\Traits\HasStrategies;
 use TencentCloud\Tms\V20201229\Models\TextModerationRequest;
 
 class Tms
@@ -14,7 +14,7 @@ class Tms
     public const DEFAULT_STRATEGY = 'strict';
 
     /**
-     * @throws \Overtrue\LaravelQcs\Exceptions\Exception
+     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
      */
     public function check(string $contents)
     {
@@ -36,8 +36,8 @@ class Tms
     }
 
     /**
-     * @throws \Overtrue\LaravelQcs\Exceptions\InvalidTextException
-     * @throws \Overtrue\LaravelQcs\Exceptions\Exception
+     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidTextException
+     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
      */
     public function validate(string $contents, string $strategy = self::DEFAULT_STRATEGY): bool
     {
@@ -51,7 +51,7 @@ class Tms
     }
 
     /**
-     * @throws \Overtrue\LaravelQcs\Exceptions\Exception
+     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
      */
     public function mask(string $contents, string $strategy = self::DEFAULT_STRATEGY, string $char = '*')
     {

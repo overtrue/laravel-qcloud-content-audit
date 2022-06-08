@@ -4,8 +4,8 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\Concerns\InteractsWithContainer;
 use Mockery\MockInterface;
-use Overtrue\LaravelQcs\Exceptions\InvalidTextException;
-use Overtrue\LaravelQcs\Tms;
+use Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidTextException;
+use Overtrue\LaravelQcloudContentAudit\Tms;
 use TencentCloud\Tms\V20201229\Models\TextModerationRequest;
 use TencentCloud\Tms\V20201229\Models\TextModerationResponse;
 

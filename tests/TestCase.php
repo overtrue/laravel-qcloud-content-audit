@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Intervention\Image\ImageServiceProvider;
-use Overtrue\LaravelQcs\QcsServiceProvider;
+use Overtrue\LaravelQcloudContentAudit\QcloudContentAuditServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -16,7 +16,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function getPackageProviders($app): array
     {
-        return [QcsServiceProvider::class, ImageServiceProvider::class];
+        return [QcloudContentAuditServiceProvider::class, ImageServiceProvider::class];
     }
 
     /**

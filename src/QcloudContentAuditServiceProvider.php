@@ -1,6 +1,6 @@
 <?php
 
-namespace Overtrue\LaravelQcs;
+namespace Overtrue\LaravelQcloudContentAudit;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
@@ -10,7 +10,7 @@ use TencentCloud\Common\Profile\HttpProfile;
 use TencentCloud\Ims\V20201229\ImsClient;
 use TencentCloud\Tms\V20201229\TmsClient;
 
-class QcsServiceProvider extends ServiceProvider implements DeferrableProvider
+class QcloudContentAuditServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     public function register()
     {
@@ -32,8 +32,8 @@ class QcsServiceProvider extends ServiceProvider implements DeferrableProvider
             'tms',
             function () {
                 return \tap(
-                    new \Overtrue\LaravelQcs\Moderators\Tms(),
-                    function (\Overtrue\LaravelQcs\Moderators\Tms $tms) {
+                    new \Overtrue\LaravelQcloudContentAudit\Moderators\Tms(),
+                    function (\Overtrue\LaravelQcloudContentAudit\Moderators\Tms $tms) {
                         $tms->setStrategy('strict', fn ($result) => $result['Suggestion'] === 'Pass');
                     }
                 );
@@ -58,8 +58,8 @@ class QcsServiceProvider extends ServiceProvider implements DeferrableProvider
             'ims',
             function () {
                 return \tap(
-                    new \Overtrue\LaravelQcs\Moderators\Ims(),
-                    function (\Overtrue\LaravelQcs\Moderators\Ims $ims) {
+                    new \Overtrue\LaravelQcloudContentAudit\Moderators\Ims(),
+                    function (\Overtrue\LaravelQcloudContentAudit\Moderators\Ims $ims) {
                         $ims->setStrategy('strict', fn ($result) => $result['Suggestion'] === 'Pass');
                     }
                 );
@@ -70,11 +70,11 @@ class QcsServiceProvider extends ServiceProvider implements DeferrableProvider
     public function boot()
     {
         app('validator')->extend('tms', function ($attribute, $value, $parameters, $validator) {
-            return (new \Overtrue\LaravelQcs\Rules\Tms($parameters[0] ?? \Overtrue\LaravelQcs\Moderators\Tms::DEFAULT_STRATEGY))->passes($attribute, $value);
+            return (new \Overtrue\LaravelQcloudContentAudit\Rules\Tms($parameters[0] ?? \Overtrue\LaravelQcloudContentAudit\Moderators\Tms::DEFAULT_STRATEGY))->passes($attribute, $value);
         });
 
         app('validator')->extend('ims', function ($attribute, $value, $parameters, $validator) {
-            return (new \Overtrue\LaravelQcs\Rules\Ims($parameters[0] ?? \Overtrue\LaravelQcs\Moderators\Ims::DEFAULT_STRATEGY))->passes($attribute, $value);
+            return (new \Overtrue\LaravelQcloudContentAudit\Rules\Ims($parameters[0] ?? \Overtrue\LaravelQcloudContentAudit\Moderators\Ims::DEFAULT_STRATEGY))->passes($attribute, $value);
         });
     }
 

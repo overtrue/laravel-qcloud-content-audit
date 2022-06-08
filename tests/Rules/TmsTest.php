@@ -3,7 +3,7 @@
 namespace Tests\Rules;
 
 use Illuminate\Foundation\Testing\Concerns\InteractsWithContainer;
-use Overtrue\LaravelQcs\Rules\Tms;
+use Overtrue\LaravelQcloudContentAudit\Rules\Tms;
 use Tests\TestCase;
 
 class TmsTest extends TestCase
@@ -14,8 +14,8 @@ class TmsTest extends TestCase
     {
         $rule = new Tms();
 
-        \Overtrue\LaravelQcs\Tms::shouldReceive('validate')
-            ->with('敏感内容', \Overtrue\LaravelQcs\Moderators\Tms::DEFAULT_STRATEGY)
+        \Overtrue\LaravelQcloudContentAudit\Tms::shouldReceive('validate')
+            ->with('敏感内容', \Overtrue\LaravelQcloudContentAudit\Moderators\Tms::DEFAULT_STRATEGY)
             ->andReturn(true);
 
         $this->assertTrue($rule->passes('name', '敏感内容'));

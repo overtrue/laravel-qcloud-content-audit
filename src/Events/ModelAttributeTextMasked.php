@@ -1,6 +1,6 @@
 <?php
 
-namespace Overtrue\LaravelQcs\Events;
+namespace Overtrue\LaravelQcloudContentAudit\Events;
 
 use Illuminate\Database\Eloquent\Model;
 

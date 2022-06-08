@@ -1,11 +1,11 @@
 <?php
 
-namespace Overtrue\LaravelQcs\Moderators;
+namespace Overtrue\LaravelQcloudContentAudit\Moderators;
 
 use Intervention\Image\Facades\Image;
-use Overtrue\LaravelQcs\Exceptions\Exception;
-use Overtrue\LaravelQcs\Exceptions\InvalidImageException;
-use Overtrue\LaravelQcs\Traits\HasStrategies;
+use Overtrue\LaravelQcloudContentAudit\Exceptions\Exception;
+use Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidImageException;
+use Overtrue\LaravelQcloudContentAudit\Traits\HasStrategies;
 use TencentCloud\Ims\V20201229\Models\ImageModerationRequest;
 
 class Ims
@@ -17,7 +17,7 @@ class Ims
     public const DEFAULT_STRATEGY = 'strict';
 
     /**
-     * @throws \Overtrue\LaravelQcs\Exceptions\Exception
+     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
      */
     public function check(string $contents)
     {
@@ -49,8 +49,8 @@ class Ims
     }
 
     /**
-     * @throws \Overtrue\LaravelQcs\Exceptions\InvalidTextException
-     * @throws \Overtrue\LaravelQcs\Exceptions\Exception
+     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidTextException
+     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
      */
     public function validate(string $contents, string $strategy = self::DEFAULT_STRATEGY): bool
     {

@@ -1,5 +1,5 @@
 {
-  "name": "overtrue/laravel-qcs",
+  "name": "overtrue/laravel-qcloud-content-audit",
   "description": "腾讯云内容安全（文字图片内容审核）服务",
   "license": "MIT",
   "authors": [
@@ -16,7 +16,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Overtrue\\LaravelQcs\\": "src"
+      "Overtrue\\LaravelQcloudContentAudit\\": "src"
     }
   },
   "autoload-dev": {
@@ -33,11 +33,11 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Overtrue\\LaravelQcs\\QcsServiceProvider"
+        "Overtrue\\LaravelQcloudContentAudit\\QcloudContentAuditServiceProvider"
       ],
       "facades": {
-        "Tms": "Overtrue\\LaravelQcs\\Tms",
-        "Ims": "Overtrue\\LaravelQcs\\Ims"
+        "Tms": "Overtrue\\LaravelQcloudContentAudit\\Tms",
+        "Ims": "Overtrue\\LaravelQcloudContentAudit\\Ims"
       }
     },
     "hooks": {
