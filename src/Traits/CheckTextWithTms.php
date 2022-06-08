@@ -3,6 +3,7 @@
 namespace Overtrue\LaravelQcloudContentAudit\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidTextException;
 use Overtrue\LaravelQcloudContentAudit\Moderators\Tms;
 
 trait CheckTextWithTms
@@ -21,7 +22,9 @@ trait CheckTextWithTms
                 }
 
                 foreach ($model->getTmsContents() as $content) {
-                    \Overtrue\LaravelQcloudContentAudit\Tms::validate($content, $model->tmsCheckStrategy ?? Tms::DEFAULT_STRATEGY);
+                    if (!\Overtrue\LaravelQcloudContentAudit\Tms::validate($content, $model->tmsCheckStrategy ?? Tms::DEFAULT_STRATEGY)) {
+                        throw new InvalidTextException('文本内容不合法，请检查后重试！');
+                    }
                 }
             }
         );
