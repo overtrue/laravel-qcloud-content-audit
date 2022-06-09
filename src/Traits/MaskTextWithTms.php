@@ -23,11 +23,23 @@ trait MaskTextWithTms
                 foreach ($model->tmsMaskable as $attribute) {
                     $contents = $model->$attribute;
 
-                    if ($model->isClean($attribute) || !is_string($contents)) {
+                    if ($model->isClean($attribute) || (!is_string($contents) && !is_array($contents))) {
                         continue;
                     }
 
-                    $model->$attribute = \Overtrue\LaravelQcloudContentAudit\Tms::mask($contents, $model->tmsMaskStrategy ?? Tms::DEFAULT_STRATEGY);
+                    $isArrayable = is_array($contents);
+
+                    if ($isArrayable) {
+                        $contents = json_encode($contents, JSON_UNESCAPED_UNICODE);
+                    }
+
+                    $result = \Overtrue\LaravelQcloudContentAudit\Tms::mask($contents, $model->tmsMaskStrategy ?? Tms::DEFAULT_STRATEGY);
+
+                    if ($isArrayable) {
+                        $result = json_decode($result, true);
+                    }
+
+                    $model->$attribute = $result;
 
                     if ($model->$attribute !== $contents) {
                         \event(new ModelAttributeTextMasked($model, $attribute));

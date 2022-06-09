@@ -36,6 +36,16 @@ trait CheckTextWithTms
         /* @var Model|static $this */
         $attributes = Arr::only($this->getDirty(), $this->tmsCheckable ?? []);
 
-        return ($this->tmsJoinFields ?? true) ? [\join('|', $attributes)] : $attributes;
+        $formattedAttributes = [];
+
+        foreach ($attributes as $attribute) {
+            if (!is_string($attribute) && !is_array($attribute)) {
+                continue;
+            }
+
+            $formattedAttributes[] = is_array($attribute) ? json_encode($attribute, JSON_UNESCAPED_UNICODE) : $attribute;
+        }
+
+        return ($this->tmsJoinFields ?? true) ? [\join('|', $formattedAttributes)] : $formattedAttributes;
     }
 }
