@@ -23,6 +23,12 @@ trait CheckTextWithTms
                 }
 
                 foreach ($model->getTmsContents() as $content) {
+                    $content = preg_replace('/\s+/', '', $content);
+
+                    if (mb_strlen($content) < 1) {
+                        continue;
+                    }
+
                     if (!\Overtrue\LaravelQcloudContentAudit\Tms::validate($content, $model->tmsCheckStrategy ?? Tms::DEFAULT_STRATEGY)) {
                         throw new InvalidTextException('文本内容不合法，请检查后重试！');
                     }

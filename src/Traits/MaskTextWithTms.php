@@ -33,6 +33,10 @@ trait MaskTextWithTms
                         $contents = json_encode($contents, JSON_UNESCAPED_UNICODE);
                     }
 
+                    if (mb_strlen(preg_replace('/\s+/', '', $contents)) < 1) {
+                        continue;
+                    }
+
                     $result = \Overtrue\LaravelQcloudContentAudit\Tms::mask($contents, $model->tmsMaskStrategy ?? Tms::DEFAULT_STRATEGY);
 
                     if ($isArrayable) {
