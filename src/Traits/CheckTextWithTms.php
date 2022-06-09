@@ -3,6 +3,7 @@
 namespace Overtrue\LaravelQcloudContentAudit\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidTextException;
 use Overtrue\LaravelQcloudContentAudit\Moderators\Tms;
 
@@ -33,7 +34,7 @@ trait CheckTextWithTms
     public function getTmsContents(): array
     {
         /* @var Model|static $this */
-        $attributes = $this->only($this->tmsCheckable ?? []);
+        $attributes = Arr::only($this->getDirty(), $this->tmsCheckable ?? []);
 
         return ($this->tmsJoinFields ?? true) ? [\join('|', $attributes)] : $attributes;
     }
