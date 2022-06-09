@@ -21,6 +21,10 @@ trait MaskTextWithTms
                 }
 
                 foreach ($model->tmsMaskable as $attribute) {
+                    if ($model->isClean($attribute)) {
+                        continue;
+                    }
+
                     $contents = $model->$attribute;
                     $model->$attribute = \Overtrue\LaravelQcloudContentAudit\Tms::mask($contents, $model->tmsMaskStrategy ?? Tms::DEFAULT_STRATEGY);
 
