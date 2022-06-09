@@ -57,10 +57,18 @@ class Tms
     {
         $result = $this->check($contents);
 
-        if (empty($result['Keywords']) || $this->satisfiesStrategy($result, $strategy)) {
+        $keywords = $result['Keywords'];
+
+        if (empty($keywords) || $this->satisfiesStrategy($result, $strategy)) {
             return $contents;
         }
 
-        return \str_replace($result['Keywords'], $char, $contents);
+        $replaces = [];
+
+        foreach ($keywords as $keyword) {
+            $replaces[] = str_pad('', mb_strlen($keyword), $char);
+        }
+
+        return \str_replace($keywords, $replaces, $contents);
     }
 }
