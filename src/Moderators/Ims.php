@@ -16,6 +16,8 @@ class Ims
 
     public const DEFAULT_STRATEGY = 'strict';
 
+    protected ?string $bizType = null;
+
     /**
      * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
      */
@@ -32,7 +34,10 @@ class Ims
         }
 
         $request = new ImageModerationRequest();
-        $request->fromJsonString(\json_encode([$key => \base64_encode($contents)]));
+        $request->fromJsonString(\json_encode(array_filter([
+            $key => \base64_encode($contents),
+            'BizType' => $this->bizType,
+        ])));
 
         $response = \json_decode(
             \app('ims-service')
@@ -76,5 +81,12 @@ class Ims
         );
 
         return $img->stream()->getContents();
+    }
+
+    public function setBizType(?string $bizType): self
+    {
+        $this->bizType = $bizType;
+
+        return $this;
     }
 }
