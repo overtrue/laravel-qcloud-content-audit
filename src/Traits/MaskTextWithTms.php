@@ -37,7 +37,13 @@ trait MaskTextWithTms
                         continue;
                     }
 
-                    $result = \Overtrue\LaravelQcloudContentAudit\Tms::mask($contents, $model->tmsMaskStrategy ?? Tms::DEFAULT_STRATEGY);
+                    $slices = mb_str_split($contents, 3000);
+
+                    $result = '';
+
+                    foreach ($slices as $slice) {
+                        $result .= \Overtrue\LaravelQcloudContentAudit\Tms::mask($slice, $model->tmsMaskStrategy ?? Tms::DEFAULT_STRATEGY);
+                    }
 
                     if ($isArrayable) {
                         $result = json_decode($result, true);
@@ -45,7 +51,7 @@ trait MaskTextWithTms
 
                     $model->$attribute = $result;
 
-                    if ($model->$attribute !== $contents) {
+                    if ($result !== $contents) {
                         \event(new ModelAttributeTextMasked($model, $attribute));
                     }
                 }

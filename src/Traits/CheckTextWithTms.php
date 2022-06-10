@@ -29,8 +29,14 @@ trait CheckTextWithTms
                         continue;
                     }
 
-                    if (!\Overtrue\LaravelQcloudContentAudit\Tms::validate($content, $model->tmsCheckStrategy ?? Tms::DEFAULT_STRATEGY)) {
-                        throw new InvalidTextException('文本内容不合法，请检查后重试！');
+                    $slices = mb_str_split($content, 3000);
+
+                    foreach ($slices as $slice) {
+                        if (\Overtrue\LaravelQcloudContentAudit\Tms::validate($slice, $model->tmsCheckStrategy ?? Tms::DEFAULT_STRATEGY)) {
+                            continue;
+                        }
+
+                        throw new InvalidTextException('文本内容不合法，请检查后重试！', []);
                     }
                 }
             }
