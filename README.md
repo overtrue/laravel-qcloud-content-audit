@@ -32,7 +32,9 @@ $ composer require overtrue/Laravel-qcloud-content-audit -vvv
         'secret_id' => env('TMS_SECRET_ID'),
         'secret_key' => env('TMS_SECRET_KEY'),
         'endpoint' => env('TMS_ENDPOINT'),
-        'biz_type' => env('TMS_BIZ_TYPE'),
+        
+        // 可选，默认使用腾讯云默认策略
+        'biz_type' => env('TMS_BIZ_TYPE'), 
     ],
     
     // 图片审核/识别服务
@@ -40,6 +42,8 @@ $ composer require overtrue/Laravel-qcloud-content-audit -vvv
         'secret_id' => env('IMS_SECRET_ID'),
         'secret_key' => env('IMS_SECRET_KEY'),
         'endpoint' => env('IMS_ENDPOINT'),
+        
+        // 可选，默认使用腾讯云默认策略
         'biz_type' => env('IMS_BIZ_TYPE'),
     ],
 ```
@@ -165,9 +169,16 @@ Ims::setStrategy('logo', function($result) {
 
 ### Events
 
-| **Event**                                       | **Description**                             |
-| ----------------------------------------------- | ------------------------------------------- |
-| `Overtrue\LaravelQcloudContentAudit\Events\ModelAttributeTextMasked`    | 模型属性值打码后触发. 可获取 `$model` 和 `$attribute` |
+当文字被检测敏感并打码的时候，将会触发事件：
+
+`Overtrue\LaravelQcloudContentAudit\Events\ModelAttributeTextMasked`
+
+你可以监听该事件，以获取检测结果：
+
+- `$event->origin` 检测前的原始内容，如 `这是敏感内容`
+- `$event->result`  打码后的结果，如 `这是**内容`
+- `$event->model`   模型对象
+- `$event->attribute` 模型属性名，如 `name`
 
 ## 异常处理
 

@@ -52,7 +52,7 @@ trait MaskTextWithTms
                     $model->$attribute = $result;
 
                     if ($result !== $contents) {
-                        \event(new ModelAttributeTextMasked($model, $attribute));
+                        \event(new ModelAttributeTextMasked($model, $attribute, $result, $contents));
                     }
                 }
             }
