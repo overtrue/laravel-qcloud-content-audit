@@ -32,6 +32,7 @@ $ composer require overtrue/Laravel-qcloud-content-audit -vvv
         'secret_id' => env('TMS_SECRET_ID'),
         'secret_key' => env('TMS_SECRET_KEY'),
         'endpoint' => env('TMS_ENDPOINT'),
+        'biz_type' => env('TMS_BIZ_TYPE'),
     ],
     
     // 图片审核/识别服务
@@ -39,6 +40,7 @@ $ composer require overtrue/Laravel-qcloud-content-audit -vvv
         'secret_id' => env('IMS_SECRET_ID'),
         'secret_key' => env('IMS_SECRET_KEY'),
         'endpoint' => env('IMS_ENDPOINT'),
+        'biz_type' => env('IMS_BIZ_TYPE'),
     ],
 ```
 

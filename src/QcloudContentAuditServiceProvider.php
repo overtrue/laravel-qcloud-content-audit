@@ -35,6 +35,7 @@ class QcloudContentAuditServiceProvider extends ServiceProvider implements Defer
                     new \Overtrue\LaravelQcloudContentAudit\Moderators\Tms(),
                     function (\Overtrue\LaravelQcloudContentAudit\Moderators\Tms $tms) {
                         $tms->setStrategy('strict', fn ($result) => $result['Suggestion'] === 'Pass');
+                        $tms->setBizType(config('services.tms.biz_type'));
                     }
                 );
             }
@@ -61,6 +62,7 @@ class QcloudContentAuditServiceProvider extends ServiceProvider implements Defer
                     new \Overtrue\LaravelQcloudContentAudit\Moderators\Ims(),
                     function (\Overtrue\LaravelQcloudContentAudit\Moderators\Ims $ims) {
                         $ims->setStrategy('strict', fn ($result) => $result['Suggestion'] === 'Pass');
+                        $ims->setBizType(config('services.ims.biz_type'));
                     }
                 );
             }

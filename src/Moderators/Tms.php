@@ -13,13 +13,18 @@ class Tms
 
     public const DEFAULT_STRATEGY = 'strict';
 
+    protected ?string $bizType = null;
+
     /**
      * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
      */
     public function check(string $contents)
     {
         $request = new TextModerationRequest();
-        $request->fromJsonString(\json_encode(['Content' => \base64_encode($contents)]));
+        $request->fromJsonString(\json_encode(array_filter([
+            'Content' => \base64_encode($contents),
+            'BizType' => $this->bizType
+        ])));
 
         $response = \json_decode(
             \app('tms-service')
@@ -70,5 +75,12 @@ class Tms
         }
 
         return \str_replace($keywords, $replaces, $contents);
+    }
+
+    public function setBizType(?string $bizType): self
+    {
+        $this->bizType = $bizType;
+
+        return $this;
     }
 }
