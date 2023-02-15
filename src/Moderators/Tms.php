@@ -23,7 +23,7 @@ class Tms
         $request = new TextModerationRequest();
         $request->fromJsonString(\json_encode(array_filter([
             'Content' => \base64_encode($contents),
-            'BizType' => $this->bizType
+            'BizType' => $this->bizType,
         ])));
 
         $response = \json_decode(
@@ -48,7 +48,7 @@ class Tms
     {
         $response = $this->check($contents);
 
-        if (!$this->satisfiesStrategy($response, $strategy)) {
+        if (! $this->satisfiesStrategy($response, $strategy)) {
             throw new InvalidTextException($contents, $response);
         }
 

@@ -51,13 +51,13 @@ trait CheckTextWithTms
         $formattedAttributes = [];
 
         foreach ($attributes as $attribute) {
-            if (!is_string($attribute) && !is_array($attribute)) {
+            if (! is_string($attribute) && ! is_array($attribute)) {
                 continue;
             }
 
             $formattedAttributes[] = is_array($attribute) ? json_encode($attribute, JSON_UNESCAPED_UNICODE) : $attribute;
         }
 
-        return ($this->tmsJoinFields ?? true) ? [\join('|', $formattedAttributes)] : $formattedAttributes;
+        return ($this->tmsJoinFields ?? true) ? [\implode('|', $formattedAttributes)] : $formattedAttributes;
     }
 }

@@ -22,7 +22,7 @@ class ImsTest extends TestCase
                 'Suggestion' => 'Pass',
             ]
         );
-        $imagePath = __DIR__ . '/images/500x500.png';
+        $imagePath = __DIR__.'/images/500x500.png';
         $imageContents = \file_get_contents($imagePath);
 
         $this->instance(
@@ -48,10 +48,10 @@ class ImsTest extends TestCase
         );
 
         // using path
-        $this->assertSame(['Suggestion' => 'Pass',], Ims::check($imagePath));
+        $this->assertSame(['Suggestion' => 'Pass'], Ims::check($imagePath));
 
         // using contents
-        $this->assertSame(['Suggestion' => 'Pass',], Ims::check($imageContents));
+        $this->assertSame(['Suggestion' => 'Pass'], Ims::check($imageContents));
     }
 
     public function test_it_can_validate_image_contents()
@@ -62,16 +62,16 @@ class ImsTest extends TestCase
                 'Suggestion' => 'Review',
             ]
         );
-        $imagePath = __DIR__ . '/images/500x500.png';
+        $imagePath = __DIR__.'/images/500x500.png';
         $imageContents = \file_get_contents($imagePath);
         $this->instance(
             'ims-service',
             \Mockery::mock(
                 'stdClass',
-                function (MockInterface $service) use ($response, $imageContents) {
+                function (MockInterface $service) use ($response) {
                     $service->shouldReceive('ImageModeration')->with(
                         \Mockery::on(
-                            function (ImageModerationRequest $request) use ($imageContents) {
+                            function (ImageModerationRequest $request) {
                                 $img = Image::make($request->getFileContent());
 
                                 $this->assertSame(\Overtrue\LaravelQcloudContentAudit\Moderators\Ims::MAX_SIZE, $img->getWidth());
@@ -99,7 +99,7 @@ class ImsTest extends TestCase
                 'Suggestion' => 'Review',
             ]
         );
-        $imagePath = __DIR__ . '/images/500x500.png';
+        $imagePath = __DIR__.'/images/500x500.png';
         $this->instance(
             'ims-service',
             \Mockery::mock(

@@ -12,10 +12,11 @@ class UserWithCheckTextTrait extends Model
     use CheckTextWithTms;
 
     protected $table = 'users';
+
     protected array $tmsCheckable = ['name'];
+
     protected $fillable = ['name', 'description'];
 }
-
 
 class CheckTextWithTmsTest extends TestCase
 {

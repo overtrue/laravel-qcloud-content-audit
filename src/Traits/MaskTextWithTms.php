@@ -23,7 +23,7 @@ trait MaskTextWithTms
                 foreach ($model->tmsMaskable as $attribute) {
                     $contents = $model->$attribute;
 
-                    if ($model->isClean($attribute) || (!is_string($contents) && !is_array($contents))) {
+                    if ($model->isClean($attribute) || (! is_string($contents) && ! is_array($contents))) {
                         continue;
                     }
 

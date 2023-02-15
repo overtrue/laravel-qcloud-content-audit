@@ -61,7 +61,7 @@ class Ims
     {
         $response = $this->check($contents);
 
-        if (!$this->satisfiesStrategy($response, $strategy)) {
+        if (! $this->satisfiesStrategy($response, $strategy)) {
             throw new InvalidImageException($response);
         }
 

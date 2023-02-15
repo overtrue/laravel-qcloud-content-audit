@@ -13,7 +13,7 @@ trait HasStrategies
      */
     public function satisfiesStrategy(array $result, string $strategy): bool
     {
-        return !!$this->getStrategy($strategy)($result);
+        return (bool) $this->getStrategy($strategy)($result);
     }
 
     public function setStrategy(string $name, callable $callback): self
@@ -28,7 +28,7 @@ trait HasStrategies
      */
     public function getStrategy(string $name): callable
     {
-        if (!$this->hasStrategy($name)) {
+        if (! $this->hasStrategy($name)) {
             throw new StrategyNotFoundException($name);
         }
 

@@ -10,9 +10,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     /**
      * Load package service provider.
      *
-     * @param \Illuminate\Foundation\Application $app
-     *
-     * @return array
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function getPackageProviders($app): array
     {
@@ -22,7 +20,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     /**
      * Define environment setup.
      *
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function getEnvironmentSetUp($app)
     {
@@ -38,8 +36,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->loadMigrationsFrom(__DIR__ . '/migrations');
-        $this->loadMigrationsFrom(dirname(__DIR__) . '/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
+        $this->loadMigrationsFrom(dirname(__DIR__).'/migrations');
     }
 
     protected function tearDown(): void

@@ -11,10 +11,11 @@ class UserWithMaskTextTrait extends Model
     use MaskTextWithTms;
 
     protected $table = 'users';
+
     protected array $tmsMaskable = ['name'];
+
     protected $fillable = ['name'];
 }
-
 
 class MaskTextWithTmsTest extends TestCase
 {

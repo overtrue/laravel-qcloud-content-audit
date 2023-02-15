@@ -7,6 +7,7 @@ use Throwable;
 class InvalidTextException extends Exception
 {
     public string $contents;
+
     public array $response;
 
     public function __construct(string $contents, array $response, Throwable $previous = null)

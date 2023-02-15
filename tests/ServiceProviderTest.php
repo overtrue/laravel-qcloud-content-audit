@@ -4,8 +4,8 @@ namespace Tests;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Overtrue\LaravelQcloudContentAudit\Ims;
-use Overtrue\LaravelQcloudContentAudit\Moderators\Tms as TmsModerator;
 use Overtrue\LaravelQcloudContentAudit\Moderators\Ims as ImsModerator;
+use Overtrue\LaravelQcloudContentAudit\Moderators\Tms as TmsModerator;
 use Overtrue\LaravelQcloudContentAudit\QcloudContentAuditServiceProvider;
 use Overtrue\LaravelQcloudContentAudit\Tms;
 use TencentCloud\Ims\V20201229\ImsClient;

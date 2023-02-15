@@ -15,7 +15,7 @@ class ImsTest extends TestCase
         \Overtrue\LaravelQcloudContentAudit\Ims::shouldReceive('validate')->andReturnTrue();
 
         $this->assertTrue(
-            $rule->passes('logo', UploadedFile::fake()->createWithContent('logo.png', \file_get_contents(__DIR__ . '/../images/500x500.png')))
+            $rule->passes('logo', UploadedFile::fake()->createWithContent('logo.png', \file_get_contents(__DIR__.'/../images/500x500.png')))
         );
     }
 }
