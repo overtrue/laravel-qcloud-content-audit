@@ -63,6 +63,6 @@ trait CheckTextWithTms
 
     public static function shouldCheckTextWithTms(): bool
     {
-        return !Tms::dry();
+        return true;
     }
 }

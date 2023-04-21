@@ -61,6 +61,6 @@ trait MaskTextWithTms
 
     public static function shouldMaskTextWithTms(): bool
     {
-        return !Tms::dry();
+        return true;
     }
 }
