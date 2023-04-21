@@ -18,7 +18,7 @@ trait CheckTextWithTms
         static::saving(
             function (Model $model) {
                 /* @var Model|static $model */
-                if (empty($model->tmsCheckable ?? [])) {
+                if (empty($model->tmsCheckable ?? []) || !self::shouldCheckTextWithTms()) {
                     return;
                 }
 
@@ -59,5 +59,10 @@ trait CheckTextWithTms
         }
 
         return ($this->tmsJoinFields ?? true) ? [\implode('|', $formattedAttributes)] : $formattedAttributes;
+    }
+
+    public static function shouldCheckTextWithTms(): bool
+    {
+        return !Tms::dry();
     }
 }

@@ -36,6 +36,8 @@ class QcloudContentAuditServiceProvider extends ServiceProvider implements Defer
                     function (Moderators\Tms $tms) {
                         $tms->setStrategy('strict', fn ($result) => $result['Suggestion'] === 'Pass');
                         $tms->setBizType(config('services.tms.biz_type'));
+
+                        Tms::dry(config('services.tms.dry', false));
                     }
                 );
             }
@@ -63,6 +65,8 @@ class QcloudContentAuditServiceProvider extends ServiceProvider implements Defer
                     function (Moderators\Ims $ims) {
                         $ims->setStrategy('strict', fn ($result) => $result['Suggestion'] === 'Pass');
                         $ims->setBizType(config('services.ims.biz_type'));
+
+                        Ims::dry(config('services.ims.dry', false));
                     }
                 );
             }

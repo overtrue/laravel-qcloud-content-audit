@@ -46,7 +46,7 @@ class Tms
      */
     public function validate(string $contents, string $strategy = self::DEFAULT_STRATEGY): bool
     {
-        if (config('services.tms.disable', false)) {
+        if (\Overtrue\LaravelQcloudContentAudit\Tms::dry()) {
             return true;
         }
 
@@ -64,7 +64,7 @@ class Tms
      */
     public function mask(string $contents, string $strategy = self::DEFAULT_STRATEGY, string $char = '*')
     {
-        if (config('services.tms.disable', false)) {
+        if (\Overtrue\LaravelQcloudContentAudit\Tms::dry()) {
             return $contents;
         }
 

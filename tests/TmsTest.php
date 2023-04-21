@@ -112,7 +112,7 @@ class TmsTest extends TestCase
         $this->assertTrue(Tms::validate('敏感内容', 'review'));
     }
 
-    public function test_it_can_disable_validate()
+    public function test_it_can_toggle_validate()
     {
         $response = new TextModerationResponse();
         $response->deserialize(
@@ -139,8 +139,11 @@ class TmsTest extends TestCase
             )
         );
 
-        config(['services.tms.disable' => true]);
-
+        config(['services.tms.dry' => true]);
         $this->assertTrue(Tms::validate('敏感内容'));
+
+        Tms::dry(false);
+        $this->expectException(InvalidTextException::class);
+        Tms::validate('敏感内容');
     }
 }

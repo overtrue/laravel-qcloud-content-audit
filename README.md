@@ -36,7 +36,7 @@ $ composer require overtrue/Laravel-qcloud-content-audit -vvv
         // 可选，默认使用腾讯云默认策略
         'biz_type' => env('TMS_BIZ_TYPE'), 
         // 可选，开启后跳过 tms 识别/打码功能
-        'disable' => env('TMS_DISABLE', false),
+        'dry' => env('TMS_DRY', false),
     ],
     
     // 图片审核/识别服务
@@ -48,7 +48,7 @@ $ composer require overtrue/Laravel-qcloud-content-audit -vvv
         // 可选，默认使用腾讯云默认策略
         'biz_type' => env('IMS_BIZ_TYPE'),
         // 可选，开启后跳过 ims 识别功能
-        'disable' => env('IMS_DISABLE', false),
+        'dry' => env('IMS_DRY', false),
     ],
 ```
 

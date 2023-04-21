@@ -16,7 +16,7 @@ trait MaskTextWithTms
         static::saving(
             function (Model $model) {
                 /* @var Model|static $model */
-                if (empty($model->tmsMaskable ?? [])) {
+                if (empty($model->tmsMaskable ?? []) || !self::shouldMaskTextWithTms()) {
                     return;
                 }
 
@@ -57,5 +57,10 @@ trait MaskTextWithTms
                 }
             }
         );
+    }
+
+    public static function shouldMaskTextWithTms(): bool
+    {
+        return !Tms::dry();
     }
 }

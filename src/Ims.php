@@ -4,6 +4,7 @@ namespace Overtrue\LaravelQcloudContentAudit;
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Str;
+use Overtrue\LaravelQcloudContentAudit\Traits\HasDry;
 
 /**
  * @method static array check(string $contents)
@@ -12,6 +13,8 @@ use Illuminate\Support\Str;
  */
 class Ims extends Facade
 {
+    use HasDry;
+
     protected static function getFacadeAccessor(): string
     {
         return 'ims';

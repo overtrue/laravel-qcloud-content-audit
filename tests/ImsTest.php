@@ -127,7 +127,7 @@ class ImsTest extends TestCase
         $this->assertTrue(Ims::validate($imagePath, 'review'));
     }
 
-    public function test_it_can_disable_validate()
+    public function test_it_can_toggle_validate()
     {
         $response = new ImageModerationResponse();
         $response->deserialize(
@@ -159,8 +159,11 @@ class ImsTest extends TestCase
             )
         );
 
-        config(['services.ims.disable' => true]);
-
+        config(['services.ims.dry' => true]);
         $this->assertTrue(Ims::validate($imageContents));
+
+        Ims::dry(false);
+        $this->expectException(InvalidImageException::class);
+        Ims::validate($imageContents);
     }
 }
