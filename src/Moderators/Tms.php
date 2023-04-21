@@ -46,6 +46,10 @@ class Tms
      */
     public function validate(string $contents, string $strategy = self::DEFAULT_STRATEGY): bool
     {
+        if (\Overtrue\LaravelQcloudContentAudit\Tms::dry()) {
+            return true;
+        }
+
         $response = $this->check($contents);
 
         if (! $this->satisfiesStrategy($response, $strategy)) {
@@ -60,6 +64,10 @@ class Tms
      */
     public function mask(string $contents, string $strategy = self::DEFAULT_STRATEGY, string $char = '*')
     {
+        if (\Overtrue\LaravelQcloudContentAudit\Tms::dry()) {
+            return $contents;
+        }
+
         $result = $this->check($contents);
 
         $keywords = $result['Keywords'];

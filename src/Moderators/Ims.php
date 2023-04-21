@@ -59,6 +59,10 @@ class Ims
      */
     public function validate(string $contents, string $strategy = self::DEFAULT_STRATEGY): bool
     {
+        if (\Overtrue\LaravelQcloudContentAudit\Ims::dry()) {
+            return true;
+        }
+
         $response = $this->check($contents);
 
         if (! $this->satisfiesStrategy($response, $strategy)) {
