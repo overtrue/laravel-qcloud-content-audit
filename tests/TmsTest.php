@@ -111,4 +111,36 @@ class TmsTest extends TestCase
 
         $this->assertTrue(Tms::validate('敏感内容', 'review'));
     }
+
+    public function test_it_can_disable_validate()
+    {
+        $response = new TextModerationResponse();
+        $response->deserialize(
+            [
+                'Suggestion' => 'Review',
+            ]
+        );
+        $this->instance(
+            'tms-service',
+            \Mockery::mock(
+                'stdClass',
+                function (MockInterface $service) use ($response) {
+                    $service->shouldReceive('TextModeration')->with(
+                        \Mockery::on(
+                            function (TextModerationRequest $request) {
+                                $this->assertSame(\base64_encode('敏感内容'), $request->getContent());
+
+                                return true;
+                            }
+                        )
+                    )
+                        ->andReturn($response);
+                }
+            )
+        );
+
+        config(['services.tms.disable' => true]);
+
+        $this->assertTrue(Tms::validate('敏感内容'));
+    }
 }

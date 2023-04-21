@@ -126,4 +126,41 @@ class ImsTest extends TestCase
 
         $this->assertTrue(Ims::validate($imagePath, 'review'));
     }
+
+    public function test_it_can_disable_validate()
+    {
+        $response = new ImageModerationResponse();
+        $response->deserialize(
+            [
+                'Suggestion' => 'Review',
+            ]
+        );
+        $imagePath = __DIR__.'/images/500x500.png';
+        $imageContents = \file_get_contents($imagePath);
+        $this->instance(
+            'ims-service',
+            \Mockery::mock(
+                'stdClass',
+                function (MockInterface $service) use ($response) {
+                    $service->shouldReceive('ImageModeration')->with(
+                        \Mockery::on(
+                            function (ImageModerationRequest $request) {
+                                $img = Image::make($request->getFileContent());
+
+                                $this->assertSame(\Overtrue\LaravelQcloudContentAudit\Moderators\Ims::MAX_SIZE, $img->getWidth());
+                                $this->assertSame(\Overtrue\LaravelQcloudContentAudit\Moderators\Ims::MAX_SIZE, $img->getHeight());
+
+                                return true;
+                            }
+                        )
+                    )
+                        ->andReturn($response);
+                }
+            )
+        );
+
+        config(['services.ims.disable' => true]);
+
+        $this->assertTrue(Ims::validate($imageContents));
+    }
 }

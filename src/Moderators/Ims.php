@@ -59,6 +59,10 @@ class Ims
      */
     public function validate(string $contents, string $strategy = self::DEFAULT_STRATEGY): bool
     {
+        if (config('services.ims.disable', false)) {
+            return true;
+        }
+
         $response = $this->check($contents);
 
         if (! $this->satisfiesStrategy($response, $strategy)) {
