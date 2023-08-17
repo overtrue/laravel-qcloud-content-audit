@@ -29,7 +29,7 @@
     "phpunit/phpunit": "^10.0",
     "orchestra/testbench": "^8.0",
     "brainmaestro/composer-git-hooks": "dev-master",
-    "laravel/pint": "^1.5"
+    "laravel/pint": "^1.11"
   },
   "extra": {
     "laravel": {

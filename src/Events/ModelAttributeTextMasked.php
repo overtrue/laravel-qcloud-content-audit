@@ -9,8 +9,8 @@ class ModelAttributeTextMasked
     public function __construct(
         public Model $model,
         public string $attribute,
-        public string $result,
-        public string $origin
+        public string|array $result,
+        public string|array $origin
     ) {
     }
 }

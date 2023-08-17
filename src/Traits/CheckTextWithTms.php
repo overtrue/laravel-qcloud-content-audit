@@ -9,16 +9,16 @@ use Overtrue\LaravelQcloudContentAudit\Moderators\Tms;
 
 trait CheckTextWithTms
 {
-//    protected array $tmsCheckable = [];
-//    protected string $tmsCheckStrategy = Tms::DEFAULT_STRATEGY;
-//    protected bool $tmsJoinFields = false;
+    //    protected array $tmsCheckable = [];
+    //    protected string $tmsCheckStrategy = Tms::DEFAULT_STRATEGY;
+    //    protected bool $tmsJoinFields = false;
 
     public static function bootCheckTextWithTms()
     {
         static::saving(
             function (Model $model) {
                 /* @var Model|static $model */
-                if (empty($model->tmsCheckable ?? []) || !self::shouldCheckTextWithTms()) {
+                if (empty($model->tmsCheckable ?? []) || ! self::shouldCheckTextWithTms()) {
                     return;
                 }
 

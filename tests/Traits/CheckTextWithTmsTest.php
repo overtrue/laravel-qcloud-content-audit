@@ -13,7 +13,7 @@ class UserWithCheckTextTrait extends Model
 
     protected $table = 'users';
 
-    protected array $tmsCheckable = ['name'];
+    protected array $tmsCheckable = ['name', 'description'];
 
     protected $fillable = ['name', 'description'];
 }

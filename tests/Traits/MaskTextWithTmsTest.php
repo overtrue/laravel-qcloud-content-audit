@@ -3,6 +3,9 @@
 namespace Tests\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Event;
+use Overtrue\LaravelQcloudContentAudit\Events\ModelAttributeTextMasked;
+use Overtrue\LaravelQcloudContentAudit\Moderators\Tms;
 use Overtrue\LaravelQcloudContentAudit\Traits\MaskTextWithTms;
 use Tests\TestCase;
 
@@ -12,9 +15,9 @@ class UserWithMaskTextTrait extends Model
 
     protected $table = 'users';
 
-    protected array $tmsMaskable = ['name'];
+    protected array $tmsMaskable = ['name', 'description'];
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'description'];
 }
 
 class MaskTextWithTmsTest extends TestCase
@@ -22,7 +25,7 @@ class MaskTextWithTmsTest extends TestCase
     public function test_it_can_mask_attributes_on_model_saving()
     {
         \Overtrue\LaravelQcloudContentAudit\Tms::shouldReceive('mask')
-            ->with('这是敏感内容啊', \Overtrue\LaravelQcloudContentAudit\Moderators\Tms::DEFAULT_STRATEGY)
+            ->with('这是敏感内容啊', Tms::DEFAULT_STRATEGY)
             ->andReturn('这是**啊');
 
         $user = new UserWithMaskTextTrait(['name' => '这是敏感内容啊']);
@@ -30,5 +33,30 @@ class MaskTextWithTmsTest extends TestCase
         $user->save();
 
         $this->assertSame('这是**啊', $user->name);
+    }
+
+    public function test_it_can_mask_multi_attributes_on_model_saving()
+    {
+        \Overtrue\LaravelQcloudContentAudit\Tms::shouldReceive('mask')
+            ->withAnyArgs()
+            ->andReturn('**');
+
+        $user = new class extends Model
+        {
+            use MaskTextWithTms;
+
+            protected $tmsMaskable = ['name', 'description', 'arrayFields'];
+        };
+
+        $user->name = '这是敏感内容啊';
+        $user->description = '这还是敏感内容啊';
+        $user->arrayFields = ['这是敏感内容啊', '这还是敏感内容啊'];
+
+        Event::fake(ModelAttributeTextMasked::class);
+
+        $user->maskModelAttributes();
+        $this->assertSame('**', $user->name);
+        $this->assertSame('**', $user->description);
+        $this->assertSame(['**', '**'], $user->arrayFields);
     }
 }
