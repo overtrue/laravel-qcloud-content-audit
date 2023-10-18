@@ -28,7 +28,7 @@ trait MaskTextWithTms
     public function maskContentsWithTms(string|array $contents): string|array
     {
         if (is_array($contents)) {
-            return array_map([$this, 'maskContentsWithTms'], $contents);
+            return array_merge($contents, array_map([$this, 'maskContentsWithTms'], array_filter($contents)));
         }
 
         if (mb_strlen(preg_replace('/\s+/', '', $contents)) < 1) {
