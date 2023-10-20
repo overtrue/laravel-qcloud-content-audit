@@ -25,10 +25,14 @@ trait MaskTextWithTms
         return true;
     }
 
-    public function maskContentsWithTms(string|array $contents): string|array
+    public function maskContentsWithTms(mixed $contents): mixed
     {
+        if (! is_string($contents) && ! is_array($contents)) {
+            return $contents;
+        }
+
         if (is_array($contents)) {
-            return array_merge($contents, array_map([$this, 'maskContentsWithTms'], array_filter($contents)));
+            return array_map([$this, 'maskContentsWithTms'], $contents);
         }
 
         if (mb_strlen(preg_replace('/\s+/', '', $contents)) < 1) {
