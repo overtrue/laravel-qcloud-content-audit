@@ -25,28 +25,32 @@ trait MaskTextWithTms
         return true;
     }
 
-    public function maskContentsWithTms(mixed $contents): mixed
+    public function maskContentsWithTms(string|array $input): mixed
     {
-        if (! is_string($contents) && ! is_array($contents)) {
-            return $contents;
-        }
+        $contents = $input;
+        $isArrayable = is_array($contents);
 
-        if (is_array($contents)) {
-            return array_map([$this, 'maskContentsWithTms'], $contents);
+        if ($isArrayable) {
+            $contents = json_encode($contents, JSON_UNESCAPED_UNICODE);
         }
 
         if (mb_strlen(preg_replace('/\s+/', '', $contents)) < 1) {
             return $contents;
         }
 
-        $result = '';
         $slices = mb_str_split($contents, 3000);
 
+        $result = '';
+
         foreach ($slices as $slice) {
-            $result .= \Overtrue\LaravelQcloudContentAudit\Tms::mask($slice, $this->tmsMaskStrategy ?? Tms::DEFAULT_STRATEGY);
+            $result .= \Overtrue\LaravelQcloudContentAudit\Tms::mask($slice, $model->tmsMaskStrategy ?? Tms::DEFAULT_STRATEGY);
         }
 
-        return $result;
+        if ($isArrayable) {
+            $result = json_decode($result, true);
+        }
+
+        return json_last_error() !== 0 ? $input : $result;
     }
 
     public function maskModelAttributes(): void

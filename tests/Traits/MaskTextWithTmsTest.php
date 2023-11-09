@@ -39,7 +39,9 @@ class MaskTextWithTmsTest extends TestCase
     {
         \Overtrue\LaravelQcloudContentAudit\Tms::shouldReceive('mask')
             ->withAnyArgs()
-            ->andReturn('**');
+            ->andReturnUsing(function($contents, $strategy){
+                return str_replace("敏感", '**', $contents);
+            });
 
         $user = new class extends Model
         {
@@ -55,8 +57,8 @@ class MaskTextWithTmsTest extends TestCase
         Event::fake(ModelAttributeTextMasked::class);
 
         $user->maskModelAttributes();
-        $this->assertSame('**', $user->name);
-        $this->assertSame('**', $user->description);
-        $this->assertSame(['**', '**'], $user->arrayFields);
+        $this->assertSame('这是**内容啊', $user->name);
+        $this->assertSame('这还是**内容啊', $user->description);
+        $this->assertSame(['这是**内容啊', '这还是**内容啊'], $user->arrayFields);
     }
 }
