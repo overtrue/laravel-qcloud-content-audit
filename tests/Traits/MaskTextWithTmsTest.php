@@ -39,8 +39,8 @@ class MaskTextWithTmsTest extends TestCase
     {
         \Overtrue\LaravelQcloudContentAudit\Tms::shouldReceive('mask')
             ->withAnyArgs()
-            ->andReturnUsing(function($contents, $strategy){
-                return str_replace("敏感", '**', $contents);
+            ->andReturnUsing(function ($contents, $strategy) {
+                return str_replace('敏感', '**', $contents);
             });
 
         $user = new class extends Model
