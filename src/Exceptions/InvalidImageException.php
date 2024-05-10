@@ -8,7 +8,7 @@ class InvalidImageException extends Exception
 {
     public array $response;
 
-    public function __construct(array $response, Throwable $previous = null)
+    public function __construct(array $response, ?Throwable $previous = null)
     {
         $this->response = $response;
 

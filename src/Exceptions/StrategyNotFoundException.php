@@ -8,7 +8,7 @@ class StrategyNotFoundException extends Exception
 {
     public string $strategy;
 
-    public function __construct(string $strategy, Throwable $previous = null)
+    public function __construct(string $strategy, ?Throwable $previous = null)
     {
         $this->strategy = $strategy;
 

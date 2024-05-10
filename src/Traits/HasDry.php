@@ -6,7 +6,7 @@ trait HasDry
 {
     protected static bool $dry = false;
 
-    public static function dry(bool $dry = null): bool
+    public static function dry(?bool $dry = null): bool
     {
         if (! is_null($dry)) {
             self::$dry = $dry;

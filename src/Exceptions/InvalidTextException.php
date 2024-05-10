@@ -10,7 +10,7 @@ class InvalidTextException extends Exception
 
     public array $response;
 
-    public function __construct(string $message, string $contents, array $response, Throwable $previous = null)
+    public function __construct(string $message, string $contents, array $response, ?Throwable $previous = null)
     {
         $this->contents = $contents;
         $this->response = $response;
