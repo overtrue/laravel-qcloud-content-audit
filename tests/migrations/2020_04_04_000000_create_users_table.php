@@ -14,6 +14,7 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description')->nullable();
+            $table->json('settings')->nullable();
             $table->boolean('private')->default(false);
             $table->timestamps();
         });

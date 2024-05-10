@@ -129,6 +129,13 @@ class Post extends Model
 
 检测到敏感内容时不抛出异常，而是替换为 * 号。
 
+> {Warning}
+> 
+> 此行为默认监听 Model::saved 事件，触发 `MaskModelAttributes::dispatch($model)`，如需禁用此行为，可如下设置：
+> ```php
+> protected bool $tmsMaskOnSaved = false;
+> ```
+
 ```php
 use Illuminate\Database\Eloquent\Model;
 use Overtrue\LaravelQcloudContentAudit\Traits\MaskTextWithTms;
@@ -138,7 +145,7 @@ class Post extends Model
     use MaskTextWithTms;
     
     protected $tmsMaskable = ['name', 'description'];
-    protected $tmsMaskStrategy = 'review'; // 开启打码的策略情况，可选，默认使用最严格模式
+    // protected $tmsMaskStrategy = 'strict'; // 开启打码的策略情况，可选，默认使用最严格模式
     
     //...
 }
@@ -146,12 +153,14 @@ class Post extends Model
 
 ## 使用表单校验规则
 
+您可以在表单验证时使用 `tms` 或者 `tms:{strategy}` 模式来进行表单验证：
+
 ```php
 $this->validate($request, [
-	'name' => 'required|tms',
-	'avatar' => 'required|url|ims',
-	'description' => 'required|tms:strict',
-	'logo_url' => 'required|url|ims:logo',
+	'name' => 'required|tms',   // 使用默认 strict 策略
+	'avatar' => 'required|url|ims', // 使用默认 strict 策略
+	'description' => 'required|tms:strict', // 使用指定策略
+	'logo_url' => 'required|url|ims:logo',  // 使用指定策略
 ]);
 ```
 
@@ -201,8 +210,6 @@ Ims::setStrategy('logo', function($result) {
     - `$response` - (array) API 原始返回值
 
 ## :heart: Sponsor me 
-
-[![Sponsor me](https://github.com/overtrue/overtrue/blob/master/sponsor-me.svg?raw=true)](https://github.com/sponsors/overtrue)
 
 如果你喜欢我的项目并想支持它，[点击这里 :heart:](https://github.com/sponsors/overtrue)
 

@@ -6,11 +6,13 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Str;
 use Overtrue\LaravelQcloudContentAudit\Traits\HasDry;
 
+use function sprintf;
+
 /**
  * @method static array check(string $contents)
  * @method static bool validate(string $contents, string $strategy = 'strict')
- * @method static string mask(string $contents, string $strategy = 'strict', string $char = '*')
- * @method static \Overtrue\LaravelQcloudContentAudit\Moderators\Tms setStrategy(string $name, callable $fn)
+ * @method static string|array mask(string|array $contents, string $strategy = 'strict', string $char = '*')
+ * @method static Moderators\Tms setStrategy(string $name, callable $fn)
  */
 class Tms extends Facade
 {
@@ -18,13 +20,13 @@ class Tms extends Facade
 
     protected static function getFacadeAccessor(): string
     {
-        return 'tms';
+        return Moderators\Tms::class;
     }
 
     public static function fake(array $methods = ['check', 'validate', 'mask']): void
     {
         foreach ($methods as $method) {
-            call_user_func([self::class, \sprintf('fake%s', Str::ucfirst($method))]);
+            call_user_func([self::class, sprintf('fake%s', Str::ucfirst($method))]);
         }
     }
 

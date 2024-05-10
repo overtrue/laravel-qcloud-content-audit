@@ -4,49 +4,62 @@ namespace Overtrue\LaravelQcloudContentAudit\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidTextException;
 use Overtrue\LaravelQcloudContentAudit\Moderators\Tms;
 
 trait CheckTextWithTms
 {
     //    protected array $tmsCheckable = [];
     //    protected string $tmsCheckStrategy = Tms::DEFAULT_STRATEGY;
-    //    protected bool $tmsJoinFields = false;
 
-    public static function bootCheckTextWithTms()
+    public static function bootCheckTextWithTms(): void
     {
         static::saving(
             function (Model $model) {
                 /* @var Model|static $model */
-                if (empty($model->tmsCheckable ?? []) || ! self::shouldCheckTextWithTms()) {
+                if (! $model->shouldCheckTextWithTms()) {
                     return;
                 }
 
-                foreach ($model->getTmsContents() as $content) {
-                    $content = preg_replace('/\s+/', '', $content);
+                foreach ($model->getTmsContents() as $contents) {
+                    $contents = preg_replace('/\s+/', '', $contents);
 
-                    if (mb_strlen($content) < 1) {
+                    if (mb_strlen($contents) < 1) {
                         continue;
                     }
 
-                    $slices = mb_str_split($content, 3000);
+                    $slices = mb_str_split($contents, 3000);
 
                     foreach ($slices as $slice) {
-                        if (\Overtrue\LaravelQcloudContentAudit\Tms::validate($slice, $model->tmsCheckStrategy ?? Tms::DEFAULT_STRATEGY)) {
-                            continue;
-                        }
-
-                        throw new InvalidTextException('文本内容不合法，请检查后重试！', []);
+                        \Overtrue\LaravelQcloudContentAudit\Tms::validate($slice, $model->tmsCheckStrategy ?? Tms::DEFAULT_STRATEGY);
                     }
                 }
             }
         );
     }
 
+    public function getTmsCheckableAttributes(): array
+    {
+        return property_exists($this, 'tmsCheckable') ? $this->tmsCheckable : [];
+    }
+
+    public function getTmsCheckStrategy(): string
+    {
+        return property_exists($this, 'tmsCheckStrategy') ? $this->tmsCheckStrategy : Tms::DEFAULT_STRATEGY;
+    }
+
+    public function shouldCheckTextWithTms(): bool
+    {
+        if (empty($this->getTmsCheckableAttributes())) {
+            return false;
+        }
+
+        return Arr::hasAny($this->getDirty(), $this->getTmsCheckableAttributes());
+    }
+
     public function getTmsContents(): array
     {
         /* @var Model|static $this */
-        $attributes = Arr::only($this->getDirty(), $this->tmsCheckable ?? []);
+        $attributes = Arr::only($this->getDirty(), $this->getTmsCheckableAttributes());
 
         $formattedAttributes = [];
 
@@ -59,10 +72,5 @@ trait CheckTextWithTms
         }
 
         return ($this->tmsJoinFields ?? true) ? [\implode('|', $formattedAttributes)] : $formattedAttributes;
-    }
-
-    public static function shouldCheckTextWithTms(): bool
-    {
-        return true;
     }
 }

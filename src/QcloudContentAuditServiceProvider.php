@@ -29,7 +29,7 @@ class QcloudContentAuditServiceProvider extends ServiceProvider implements Defer
         );
 
         $this->app->singleton(
-            'tms',
+            \Overtrue\LaravelQcloudContentAudit\Moderators\Tms::class,
             function () {
                 return \tap(
                     new \Overtrue\LaravelQcloudContentAudit\Moderators\Tms(),
@@ -58,7 +58,7 @@ class QcloudContentAuditServiceProvider extends ServiceProvider implements Defer
         );
 
         $this->app->singleton(
-            'ims',
+            \Overtrue\LaravelQcloudContentAudit\Moderators\Ims::class,
             function () {
                 return \tap(
                     new \Overtrue\LaravelQcloudContentAudit\Moderators\Ims(),
@@ -71,6 +71,9 @@ class QcloudContentAuditServiceProvider extends ServiceProvider implements Defer
                 );
             }
         );
+
+        $this->app->alias(\Overtrue\LaravelQcloudContentAudit\Moderators\Tms::class, 'tms');
+        $this->app->alias(\Overtrue\LaravelQcloudContentAudit\Moderators\Ims::class, 'ims');
     }
 
     public function boot()
@@ -86,6 +89,11 @@ class QcloudContentAuditServiceProvider extends ServiceProvider implements Defer
 
     public function provides(): array
     {
-        return ['tms', 'ims', 'tms-service', 'ims-service'];
+        return [
+            'tms-service', 'ims-service',
+            \Overtrue\LaravelQcloudContentAudit\Moderators\Tms::class,
+            \Overtrue\LaravelQcloudContentAudit\Moderators\Ims::class,
+            'tms', 'ims',
+        ];
     }
 }

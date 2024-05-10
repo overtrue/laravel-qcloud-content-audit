@@ -24,7 +24,7 @@ class CheckTextWithTmsTest extends TestCase
     {
         \Overtrue\LaravelQcloudContentAudit\Tms::shouldReceive('validate')
             ->with('敏感内容', \Overtrue\LaravelQcloudContentAudit\Moderators\Tms::DEFAULT_STRATEGY)
-            ->andThrow(new InvalidTextException('敏感内容', []));
+            ->andThrow(new InvalidTextException('Invalid text', '敏感内容', []));
 
         $user = new UserWithCheckTextTrait(['name' => '敏感内容']);
 

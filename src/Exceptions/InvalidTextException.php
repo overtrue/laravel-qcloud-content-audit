@@ -10,11 +10,11 @@ class InvalidTextException extends Exception
 
     public array $response;
 
-    public function __construct(string $contents, array $response, Throwable $previous = null)
+    public function __construct(string $message, string $contents, array $response, Throwable $previous = null)
     {
         $this->contents = $contents;
         $this->response = $response;
 
-        parent::__construct('Invalid text contents', 422, $previous);
+        parent::__construct($message, 422, $previous);
     }
 }

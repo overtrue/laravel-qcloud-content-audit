@@ -2,6 +2,7 @@
 
 namespace Overtrue\LaravelQcloudContentAudit\Moderators;
 
+use Illuminate\Support\Facades\Log;
 use Overtrue\LaravelQcloudContentAudit\Exceptions\Exception;
 use Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidTextException;
 use Overtrue\LaravelQcloudContentAudit\Traits\HasStrategies;
@@ -53,7 +54,7 @@ class Tms
         $response = $this->check($contents);
 
         if (! $this->satisfiesStrategy($response, $strategy)) {
-            throw new InvalidTextException($contents, $response);
+            throw new InvalidTextException('Invalid text', $contents, $response);
         }
 
         return true;
@@ -62,7 +63,48 @@ class Tms
     /**
      * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
      */
-    public function mask(string $contents, string $strategy = self::DEFAULT_STRATEGY, string $char = '*')
+    public function mask(string|array $input, string $strategy = self::DEFAULT_STRATEGY, string $char = '*'): string|array
+    {
+        $inputIsArray = is_array($input);
+
+        $contents = $inputIsArray ? json_encode($input, JSON_UNESCAPED_UNICODE) : $input;
+
+        if (mb_strlen(preg_replace('/[\s]+/', '', $contents)) < 1) {
+            return $input;
+        }
+
+        // 接口有长度限制，所以需要分片处理
+        $slices = mb_str_split($contents, 3000);
+
+        $result = '';
+
+        foreach ($slices as $slice) {
+            $result .= $this->maskString($slice, $strategy, $char);
+        }
+
+        if ($inputIsArray) {
+            // 数组结构时，需要还原并替换到原数组
+            $result = json_decode($result, true);
+
+            if (! is_array($result) || count($result) !== count($input)) {
+                Log::error('TMS: Masked array length mismatch.', [
+                    'input' => $input,
+                    'result' => $result,
+                ]);
+
+                return $input;
+            }
+
+            $result = array_combine(array_keys($input), $result);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
+     */
+    protected function maskString(string $contents, string $strategy = self::DEFAULT_STRATEGY, string $char = '*'): string
     {
         if (\Overtrue\LaravelQcloudContentAudit\Tms::dry()) {
             return $contents;
