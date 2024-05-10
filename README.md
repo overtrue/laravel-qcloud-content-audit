@@ -109,6 +109,10 @@ echo Tms::mask('这是敏感内容哦');
 
 ### 文本校验（CheckTextWithTms）
 
+> [!Warning]
+>
+> 此操作为同步，可能会影响接口性能，谨慎使用
+
 ```php
 use Illuminate\Database\Eloquent\Model;
 use Overtrue\LaravelQcloudContentAudit\Traits\CheckTextWithTms;
@@ -129,9 +133,9 @@ class Post extends Model
 
 检测到敏感内容时不抛出异常，而是替换为 * 号。
 
-> {Warning}
+> [!Warning]
 > 
-> 此行为默认监听 Model::saved 事件，触发 `MaskModelAttributes::dispatch($model)`，如需禁用此行为，可如下设置：
+> 此行为为异步，默认监听模型 `saved` 事件，触发 `MaskModelAttributes::dispatch($model)`，如需禁用此行为，可如下设置：
 > ```php
 > protected bool $tmsMaskOnSaved = false;
 > ```
