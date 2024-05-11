@@ -79,7 +79,9 @@ use Overtrue\LaravelQcloudContentAudit\Ims;
 
 array Ims::check(string $contents);
 ```
-> 💡 `$contents` 可以为：图片内容、图片本地路径或 URL。
+> [!TIP]
+>
+> `$contents` 可以为：图片内容、图片本地路径或 URL。
 
 ### 检查并返回是否通过
 
@@ -109,7 +111,7 @@ echo Tms::mask('这是敏感内容哦');
 
 ### 文本校验（CheckTextWithTms）
 
-> [!Warning]
+> [!WARNING]
 >
 > 此操作为同步，可能会影响接口性能，谨慎使用
 
@@ -131,14 +133,7 @@ class Post extends Model
 
 ### 文本打码（MaskTextWithTms）
 
-检测到敏感内容时不抛出异常，而是替换为 * 号。
-
-> [!Warning]
-> 
-> 此行为为异步，默认监听模型 `saved` 事件，触发 `MaskModelAttributes::dispatch($model)`，如需禁用此行为，可如下设置：
-> ```php
-> protected bool $tmsMaskOnSaved = false;
-> ```
+异步检测到敏感内容时替换为 * 号。
 
 ```php
 use Illuminate\Database\Eloquent\Model;
@@ -154,6 +149,14 @@ class Post extends Model
     //...
 }
 ```
+
+
+> [!WARNING]
+> 
+> 此行为为异步，默认监听模型 `saved` 事件，触发 `MaskModelAttributes::dispatch($model)`，如需禁用此行为，可如下设置：
+> ```php
+> protected bool $tmsMaskOnSaved = false;
+> ```
 
 ## 使用表单校验规则
 
@@ -184,7 +187,7 @@ Ims::setStrategy('logo', function($result) {
 });
 ```
 
-> **Note**
+> [!TIP]
 > 
 >- 接口返回值中 Suggestion 有三种返回值：Block：建议屏蔽，Review ：建议人工复审，Pass：建议通过，
 >- 另外还有一个 Score，该字段用于返回当前标签（Label）下的置信度，取值范围：0（置信度最低）-100（置信度最高 ），越高代表文本越有可能属于当前返回的标签；如：色情 99，则表明该文本非常有可能属于色情内容；色情 0，则表明该文本不属于色情内容
