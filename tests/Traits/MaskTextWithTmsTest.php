@@ -49,7 +49,16 @@ class MaskTextWithTmsTest extends TestCase
     public function test_it_can_mask_multi_attributes_after_model_saved()
     {
         Tms::shouldReceive('mask')
-            ->withAnyArgs()
+            ->with([
+                'name' => '这是敏感内容啊',
+                'description' => '这还是敏感内容啊',
+                'settings' => [
+                    'key1' => '这是敏感内容啊',
+                    'key2' => '这还是敏感内容啊',
+                ],
+            ],
+                \Overtrue\LaravelQcloudContentAudit\Moderators\Tms::DEFAULT_STRATEGY
+            )
             ->andReturnUsing(function ($contents, $strategy) {
                 return json_decode(str_replace('敏感', '**', json_encode($contents, JSON_UNESCAPED_UNICODE)), true);
             })

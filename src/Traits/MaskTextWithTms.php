@@ -23,7 +23,11 @@ trait MaskTextWithTms
                 return;
             }
 
-            MaskModelAttributes::dispatch($model);
+            $attributes = $model->getDirtyTmsMaskableAttributes();
+
+            if (! empty($attributes)) {
+                MaskModelAttributes::dispatch($model, $attributes);
+            }
         });
     }
 
@@ -35,6 +39,11 @@ trait MaskTextWithTms
     public function getTmsMaskStrategy()
     {
         return property_exists($this, 'tmsMaskStrategy') ? $this->tmsMaskStrategy : Tms::DEFAULT_STRATEGY;
+    }
+
+    public function getDirtyTmsMaskableAttributes(): array
+    {
+        return array_keys(Arr::only($this->getDirty(), $this->getTmsMaskableAttributes()));
     }
 
     public function shouldMaskTextWithTms(): bool
