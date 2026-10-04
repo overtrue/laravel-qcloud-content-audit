@@ -2,9 +2,13 @@
 
 namespace Overtrue\LaravelQcloudContentAudit\Moderators;
 
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
+use Intervention\Image\Encoders\AutoEncoder;
+use Intervention\Image\ImageManager;
 use Overtrue\LaravelQcloudContentAudit\Exceptions\Exception;
 use Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidImageException;
+use Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidTextException;
 use Overtrue\LaravelQcloudContentAudit\Traits\HasStrategies;
 use TencentCloud\Ims\V20201229\Models\ImageModerationRequest;
 
@@ -19,7 +23,7 @@ class Ims
     protected ?string $bizType = null;
 
     /**
-     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
+     * @throws Exception
      */
     public function check(string $contents)
     {
@@ -33,7 +37,7 @@ class Ims
             $contents = $this->resizeImage($contents);
         }
 
-        $request = new ImageModerationRequest();
+        $request = new ImageModerationRequest;
         $request->fromJsonString(\json_encode(array_filter([
             $key => \base64_encode($contents),
             'BizType' => $this->bizType,
@@ -54,8 +58,8 @@ class Ims
     }
 
     /**
-     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidTextException
-     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
+     * @throws InvalidTextException
+     * @throws Exception
      */
     public function validate(string $contents, string $strategy = self::DEFAULT_STRATEGY): bool
     {
@@ -74,17 +78,17 @@ class Ims
 
     protected function resizeImage(string $contents): string
     {
-        $img = Image::make($contents);
+        $driver = config('image.driver', config('images.default', 'gd'));
+        $manager = ImageManager::usingDriver(match ($driver) {
+            'gd' => GdDriver::class,
+            'imagick' => ImagickDriver::class,
+            default => $driver,
+        }, autoOrientation: false, decodeAnimation: false);
 
-        $img->resize(
-            self::MAX_SIZE,
-            self::MAX_SIZE,
-            function ($constraint) {
-                $constraint->aspectRatio();
-            }
-        );
-
-        return $img->stream()->getContents();
+        return $manager->decode($contents)
+            ->scale(self::MAX_SIZE, self::MAX_SIZE)
+            ->encode(new AutoEncoder(quality: 90))
+            ->toString();
     }
 
     public function setBizType(?string $bizType): self

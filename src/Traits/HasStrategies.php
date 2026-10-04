@@ -9,7 +9,7 @@ trait HasStrategies
     protected array $strategies = [];
 
     /**
-     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\StrategyNotFoundException
+     * @throws StrategyNotFoundException
      */
     public function satisfiesStrategy(array $result, string $strategy): bool
     {
@@ -24,7 +24,7 @@ trait HasStrategies
     }
 
     /**
-     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\StrategyNotFoundException
+     * @throws StrategyNotFoundException
      */
     public function getStrategy(string $name): callable
     {

@@ -15,7 +15,7 @@ class TmsTest extends TestCase
 
     public function test_is_can_check_string_contents()
     {
-        $response = new TextModerationResponse();
+        $response = new TextModerationResponse;
         $response->deserialize(
             [
                 'Suggestion' => 'Pass',
@@ -50,7 +50,7 @@ class TmsTest extends TestCase
 
     public function test_it_can_validate_string_contents()
     {
-        $response = new TextModerationResponse();
+        $response = new TextModerationResponse;
         $response->deserialize(
             [
                 'Suggestion' => 'Review',
@@ -82,7 +82,7 @@ class TmsTest extends TestCase
 
     public function test_it_can_validate_string_contents_with_custom_strategy()
     {
-        $response = new TextModerationResponse();
+        $response = new TextModerationResponse;
         $response->deserialize(
             [
                 'Suggestion' => 'Review',
@@ -114,7 +114,7 @@ class TmsTest extends TestCase
 
     public function test_it_can_toggle_validate()
     {
-        $response = new TextModerationResponse();
+        $response = new TextModerationResponse;
         $response->deserialize(
             [
                 'Suggestion' => 'Review',
