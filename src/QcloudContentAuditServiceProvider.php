@@ -2,7 +2,6 @@
 
 namespace Overtrue\LaravelQcloudContentAudit;
 
-use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use TencentCloud\Common\Credential;
 use TencentCloud\Common\Profile\ClientProfile;
@@ -10,7 +9,7 @@ use TencentCloud\Common\Profile\HttpProfile;
 use TencentCloud\Ims\V20201229\ImsClient;
 use TencentCloud\Tms\V20201229\TmsClient;
 
-class QcloudContentAuditServiceProvider extends ServiceProvider implements DeferrableProvider
+class QcloudContentAuditServiceProvider extends ServiceProvider
 {
     public function register()
     {
