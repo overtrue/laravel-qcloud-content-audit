@@ -2,7 +2,10 @@
 
 namespace Overtrue\LaravelQcloudContentAudit\Moderators;
 
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
+use Intervention\Image\Encoders\AutoEncoder;
+use Intervention\Image\ImageManager;
 use Overtrue\LaravelQcloudContentAudit\Exceptions\Exception;
 use Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidImageException;
 use Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidTextException;
@@ -75,17 +78,17 @@ class Ims
 
     protected function resizeImage(string $contents): string
     {
-        $img = Image::make($contents);
+        $driver = config('image.driver', config('images.default', 'gd'));
+        $manager = ImageManager::usingDriver(match ($driver) {
+            'gd' => GdDriver::class,
+            'imagick' => ImagickDriver::class,
+            default => $driver,
+        }, autoOrientation: false, decodeAnimation: false);
 
-        $img->resize(
-            self::MAX_SIZE,
-            self::MAX_SIZE,
-            function ($constraint) {
-                $constraint->aspectRatio();
-            }
-        );
-
-        return $img->stream()->getContents();
+        return $manager->decode($contents)
+            ->scale(self::MAX_SIZE, self::MAX_SIZE)
+            ->encode(new AutoEncoder(quality: 90))
+            ->toString();
     }
 
     public function setBizType(?string $bizType): self

@@ -17,8 +17,16 @@ T-Sec 天御内容安全服务使用了深度学习技术，识别文本/图片�
 
 ## Installing
 
+5.x 版本要求 PHP 8.3+ 和 Laravel 13，不再支持 Laravel 9–12。
+升级前请先将应用升级到 Laravel 13；仍使用 Laravel 9–11 的项目请保留 4.x 版本。
+
+图片处理依赖升级为 Intervention Image 4。请删除旧的 `Intervention\Image\ImageServiceProvider` 注册，
+并确保已安装 GD 或 Imagick 扩展。图片驱动仍优先读取 `image.driver`，其次读取 Laravel 的
+`images.default`，默认使用 `gd`；`imagick` 配置也继续支持。
+应用中直接使用 Intervention Image 2 门面或 API 的代码也需要迁移到 4.x API。
+
 ```shell
-$ composer require overtrue/Laravel-qcloud-content-audit -vvv
+$ composer require overtrue/laravel-qcloud-content-audit:^5.0 -vvv
 ```
 
 ### Config

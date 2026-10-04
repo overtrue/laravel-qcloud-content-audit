@@ -10,26 +10,45 @@ jobs:
   phpcs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup PHP environment
         uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
       - name: Install dependencies
         run: composer install
+      - name: Validate Composer configuration
+        run: composer validate --strict
+      - name: Audit dependencies
+        run: composer audit
       - name: PHPCSFixer check
         run: composer check-style
   phpunit:
     strategy:
       matrix:
-        php_version: [8.1, 8.2, 8.3, 8.4, 8.5]
+        include:
+          - php_version: '8.3'
+            dependencies: highest
+          - php_version: '8.3'
+            dependencies: lowest
+          - php_version: '8.4'
+            dependencies: highest
+          - php_version: '8.5'
+            dependencies: highest
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup PHP environment
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php_version }}
+          extensions: gd, imagick, pdo_sqlite
           coverage: xdebug
       - name: Install dependencies
-        run: composer install
+        run: composer update --prefer-dist --no-interaction ${{ matrix.dependencies == 'lowest' && '--prefer-lowest --prefer-stable' || '' }}
+      - name: Validate Composer configuration
+        run: composer validate --strict
+      - name: Audit dependencies
+        run: composer audit
       - name: PHPUnit check
-        run: ./vendor/bin/phpunit --coverage-text
+        run: ./vendor/bin/phpunit --coverage-text --fail-on-skipped --fail-on-warning --fail-on-risky
