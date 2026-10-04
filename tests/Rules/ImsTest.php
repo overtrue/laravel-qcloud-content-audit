@@ -10,7 +10,7 @@ class ImsTest extends TestCase
 {
     public function test_it_can_check_input_image_files()
     {
-        $rule = new Ims();
+        $rule = new Ims;
 
         \Overtrue\LaravelQcloudContentAudit\Ims::shouldReceive('validate')->andReturnTrue();
 

@@ -16,7 +16,7 @@ class ImsTest extends TestCase
 
     public function test_is_can_check_image_contents()
     {
-        $response = new ImageModerationResponse();
+        $response = new ImageModerationResponse;
         $response->deserialize(
             [
                 'Suggestion' => 'Pass',
@@ -56,7 +56,7 @@ class ImsTest extends TestCase
 
     public function test_it_can_validate_image_contents()
     {
-        $response = new ImageModerationResponse();
+        $response = new ImageModerationResponse;
         $response->deserialize(
             [
                 'Suggestion' => 'Review',
@@ -93,7 +93,7 @@ class ImsTest extends TestCase
 
     public function test_it_can_validate_image_contents_with_custom_strategy()
     {
-        $response = new ImageModerationResponse();
+        $response = new ImageModerationResponse;
         $response->deserialize(
             [
                 'Suggestion' => 'Review',
@@ -129,7 +129,7 @@ class ImsTest extends TestCase
 
     public function test_it_can_toggle_validate()
     {
-        $response = new ImageModerationResponse();
+        $response = new ImageModerationResponse;
         $response->deserialize(
             [
                 'Suggestion' => 'Review',

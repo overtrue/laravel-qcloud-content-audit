@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Overtrue\LaravelQcloudContentAudit\Events\ModelAttributeTextMasked;
 use Overtrue\LaravelQcloudContentAudit\Tms;
+use Overtrue\LaravelQcloudContentAudit\Traits\MaskTextWithTms;
 
 class MaskModelAttributes implements ShouldQueue
 {
@@ -19,7 +20,7 @@ class MaskModelAttributes implements ShouldQueue
     use SerializesModels;
 
     /**
-     * @param  \Illuminate\Database\Eloquent\Model|\Overtrue\LaravelQcloudContentAudit\Traits\MaskTextWithTms  $model
+     * @param  Model|MaskTextWithTms  $model
      */
     public function __construct(public Model $model, public array $attributes = [])
     {

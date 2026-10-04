@@ -2,6 +2,4 @@
 
 namespace Overtrue\LaravelQcloudContentAudit\Exceptions;
 
-class InvalidArgumentException extends Exception
-{
-}
+class InvalidArgumentException extends Exception {}

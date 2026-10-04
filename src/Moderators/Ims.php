@@ -5,6 +5,7 @@ namespace Overtrue\LaravelQcloudContentAudit\Moderators;
 use Intervention\Image\Facades\Image;
 use Overtrue\LaravelQcloudContentAudit\Exceptions\Exception;
 use Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidImageException;
+use Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidTextException;
 use Overtrue\LaravelQcloudContentAudit\Traits\HasStrategies;
 use TencentCloud\Ims\V20201229\Models\ImageModerationRequest;
 
@@ -19,7 +20,7 @@ class Ims
     protected ?string $bizType = null;
 
     /**
-     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
+     * @throws Exception
      */
     public function check(string $contents)
     {
@@ -33,7 +34,7 @@ class Ims
             $contents = $this->resizeImage($contents);
         }
 
-        $request = new ImageModerationRequest();
+        $request = new ImageModerationRequest;
         $request->fromJsonString(\json_encode(array_filter([
             $key => \base64_encode($contents),
             'BizType' => $this->bizType,
@@ -54,8 +55,8 @@ class Ims
     }
 
     /**
-     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidTextException
-     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
+     * @throws InvalidTextException
+     * @throws Exception
      */
     public function validate(string $contents, string $strategy = self::DEFAULT_STRATEGY): bool
     {

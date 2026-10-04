@@ -17,11 +17,11 @@ class Tms
     protected ?string $bizType = null;
 
     /**
-     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
+     * @throws Exception
      */
     public function check(string $contents)
     {
-        $request = new TextModerationRequest();
+        $request = new TextModerationRequest;
         $request->fromJsonString(\json_encode(array_filter([
             'Content' => \base64_encode($contents),
             'BizType' => $this->bizType,
@@ -42,8 +42,8 @@ class Tms
     }
 
     /**
-     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\InvalidTextException
-     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
+     * @throws InvalidTextException
+     * @throws Exception
      */
     public function validate(string $contents, string $strategy = self::DEFAULT_STRATEGY): bool
     {
@@ -61,7 +61,7 @@ class Tms
     }
 
     /**
-     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
+     * @throws Exception
      */
     public function mask(string|array $input, string $strategy = self::DEFAULT_STRATEGY, string $char = '*'): string|array
     {
@@ -102,7 +102,7 @@ class Tms
     }
 
     /**
-     * @throws \Overtrue\LaravelQcloudContentAudit\Exceptions\Exception
+     * @throws Exception
      */
     protected function maskString(string $contents, string $strategy = self::DEFAULT_STRATEGY, string $char = '*'): string
     {

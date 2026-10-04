@@ -11,6 +11,5 @@ class ModelAttributeTextMasked
         public string $attribute,
         public string|array $result,
         public string|array $origin
-    ) {
-    }
+    ) {}
 }

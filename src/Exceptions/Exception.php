@@ -2,6 +2,4 @@
 
 namespace Overtrue\LaravelQcloudContentAudit\Exceptions;
 
-class Exception extends \Exception
-{
-}
+class Exception extends \Exception {}

@@ -12,7 +12,7 @@ class TmsTest extends TestCase
 
     public function test_it_can_check_input_image_files()
     {
-        $rule = new Tms();
+        $rule = new Tms;
 
         \Overtrue\LaravelQcloudContentAudit\Tms::shouldReceive('validate')
             ->with('敏感内容', \Overtrue\LaravelQcloudContentAudit\Moderators\Tms::DEFAULT_STRATEGY)
